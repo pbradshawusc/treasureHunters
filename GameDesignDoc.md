@@ -6,48 +6,68 @@
     - Movement: Horizontal and vertical, but only one at a time on arrow key presses 
     - Generation: Bottom of the screen in the same place every time the user loses a life or enters a temple
     - Sprites:
+    - ![Treasure Hunter Still](./Images/Treasure Hunter Still.gif)
+    - ![Treasure Hunter Left 1](./Images/Treasure Hunter Left 1.gif)
+    - ![Treasure Hunter Left 2](./Images/Treasure Hunter Left 2.gif)
+    - ![Treasure Hunter Right 1](./Images/Treasure Hunter Right 1.gif)
+    - ![Treasure Hunter Right 2](./Images/Treasure Hunter Right 2.gif)
     - Credit: http://spritedatabase.net/files/snes/571/Sprite/Red.png 
-  1. Cars/Logs/Alligators 
+  1. Cars/Logs/Crocodiles 
     - Movement: Horizontal one way, direction depending on row generated
     - Generation: Randomly at the left or right edge depending on row. All cars/logs/alligators in the same row will move the same direction at the same speed.
     - Sprites:
     - ![Car Left 1](./Images/Car Left 1.gif) 
-    - ![Car Left 2](/home/cs102/Desktop/TreasureHunters!/Car Left 2.gif) 
-    - ![Car Right 1](/home/cs102/Desktop/Treasure Hunters!/Car Right 1.gif)
-    - ![Car Right 2](/home/cs102/Desktop/Treasure Hunters!/Car Right 2.gif)
+    - ![Car Left 2](./Images/Car Left 2.gif) 
+    - ![Car Right 1](./Images/Car Right 1.gif)
+    - ![Car Right 2](./Images/Car Right 2.gif)
     - Credit: http://spritedatabase.net/files/neogeo/836/Sprite/MSCar2.gif 
-    - ![Log](/home/cs102/Desktop/Treasure Hunters!/Log.png)
+    - ![Log](./Images/Log.png)
     - Credit: http://www.swish-designs.co.uk/blog/?p=1331 
- 
+    - ![Crocodile Left 1](./Images/Crocodile Left 1.gif)
+    - ![Crocodile Left 2](./Images/Crocodile Left 2.gif)
+    - ![Crocodile Right 1](./Images/Crocodile Right 1.gif)
+    - ![Crocodile Right 2](./Images/Crocodile Right 2.gif)
     - Credit: http://zeldapower.com/images/others/foe/sprites/Crocodile_snapping1.gif http://zeldapower.com/images/others/foe/sprites/Crocodile_swimming.gif 
   1. Holy Grail
     - Movement: Random horizontal and vertical at the same time, changes with timer. Moving randomly around the screen
     - Generation: Random off-screen and then moves onscreen
     - Note: Gives player extra life
     - Sprite:
+    - ![Holy Grail](./Images/Holy Grail.gif)
     - Credit:  http://officialpetsociety.files.wordpress.com/2011/09/medieval-goblet.png 
   1. Guardians
     - Movement: Horizontal back and forth in their set boundaries (1-3 Guardians, covers whole horizontal boundary)
     - Generation: Random within their set boundaries at the beginning of a level/life
     - Note: Shoot Arrows vertically down the screen at random intervals within a set time range
     - Sprite:
+    - ![Guardian 1](./Images/Guardian 1.gif)
+    - ![Guardian 2](./Images/Guardian 2.gif)
+    - ![Guardian 3](./Images/Guardian 3.gif)
+    - ![Guardian 4](./Images/Guardian 4.gif)
     - Credit: http://spritedatabase.net/file/9197 
   1. Arrows 
     - Movement: Vertically down the screen at constant speed
     - Generation: On random intervals within a set time frame always at the location of the shooting Guardian
     - Sprite:
-    - Credit: See Guardian
+    - ![Arrow](./Images/Arrow.gif)
+    - Credit: http://spritedatabase.net/file/9197
   1. Temples 
     - Movement: None
     - Generation: Always at the same places on the top of the screen
     - Note: 5 temples are the end goals for the treasure hunter
     - Sprite: 
-    - Credit: http://images.wikia.com/kirby/en/images/d/d2/KEY_Pyramid_sprite.png 
+    - ![Pyramid Empty](./Images/Pyramid Empty.gif)
+    - ![Pyramid Full](./Images/Pyramid Full.gif)
+    - Credit: http://images.wikia.com/kirby/en/images/d/d2/KEY_Pyramid_sprite.png
+    - Also Credit: http://spritedatabase.net/files/snes/571/Sprite/Red.png
   1. River 
     - Movement: None, just rushing water animation
     - Generation: Always in the same place
     - Note: Used for object detection of falling off of a log
     - Sprite:
+    - ![River 1](./Images/Water Sprite Part 1.gif)
+    - ![River 2](./Images/Water Sprite Part 2.gif)
+    - ![River 3](./Images/Water Sprite Part 3.gif)
     - Credit: http://img393.imageshack.us/img393/730/water6cx.png 
  
 ##Basic Functionality
@@ -78,7 +98,7 @@
 
   - For the player to be securely on a log, road, or temple, at least half of the player’s sprite must be on the log, road, or temple (as opposed to being on the river).
   - For the player to be hit by a Holy Grail, car, or Arrow, any overlap of the player’s sprite with the respective Holy Grail, car, or Arrow’s sprite will result in a collision.
-  - For alligators, the player’s sprite must have at least 1/3 of overlap for a collision to be detected.
+  - For crocodiles, the player’s sprite must have at least 1/3 of overlap for a collision to be detected.
 
 ##Game Layout
 ###Opening Screen
