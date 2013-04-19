@@ -56,7 +56,7 @@
     - Generation: Always at the same places on the top of the screen
     - Note: 5 temples are the end goals for the treasure hunter
     - Sprite: 
-    - ![Pyramid Empty](./Images/Pyramid Empty.gif)
+    - ![Pyramid Empty](./Images/Pyramid Empty.png)
     - ![Pyramid Full](./Images/Pyramid Full.gif)
     - Credit: http://images.wikia.com/kirby/en/images/d/d2/KEY_Pyramid_sprite.png
     - Also Credit: http://spritedatabase.net/files/snes/571/Sprite/Red.png
@@ -65,9 +65,9 @@
     - Generation: Always in the same place
     - Note: Used for object detection of falling off of a log
     - Sprite:
-    - ![River 1](./Images/Water Sprite Part 1.gif)
-    - ![River 2](./Images/Water Sprite Part 2.gif)
-    - ![River 3](./Images/Water Sprite Part 3.gif)
+    - ![River 1](./Images/Water Sprite Part 1.png)
+    - ![River 2](./Images/Water Sprite Part 2.png)
+    - ![River 3](./Images/Water Sprite Part 3.png)
     - Credit: http://img393.imageshack.us/img393/730/water6cx.png 
  
 ##Basic Functionality
@@ -101,10 +101,13 @@
   - For crocodiles, the player’s sprite must have at least 1/3 of overlap for a collision to be detected.
 
 ##Game Layout
-###Opening Screen
+###Title Screen
+![Title Screen](./Images/Title Screen.gif)
   - Credits (Desert): http://spritedatabase.net/files/gameboy/732/Background/SK_ScorchingDesert.png 
 ###Game Screen
+![Game Screen](./Images/Gameplay Screen.gif)
 ###Pause Screen
+![Pause Screen](./Images/Pause Screen.gif)
 
 ----
 
