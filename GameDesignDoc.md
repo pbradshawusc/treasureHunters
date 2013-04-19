@@ -1,9 +1,10 @@
 # Game Design Document: Treasure Hunters!
 
-##Moving Objects _(All moving objects aside from Arrows will have 2 or 3 step animations along with movement)_:
+##Moving Objects:
+_(All moving objects aside from Arrows will have 2 or 3 step animations along with movement)_
 
   1. Treasure Hunter (player)
-    - Movement: Horizontal and vertical, but only one at a time on arrow key presses 
+    - Movement: Horizontal and vertical on arrow key presses 
     - Generation: Bottom of the screen in the same place every time the user loses a life or enters a temple
     - Sprites:
     - ![Treasure Hunter Still](./Images/Treasure Hunter Still.gif)
@@ -72,8 +73,9 @@
  
 ##Basic Functionality
 
+_Some parts of this section will be repeated in the more segmented outline below_
+
   - Player moves the treasure hunter with the arrow keys: up, down, left, and right
-    - One move per press, can’t just hold down
   - Trying to get treasure hunter into temple. 
     - Once a treasure hunter has entered a temple, a new treasure hunter cannot enter the same temple.
     - Total of 5 temples, once 3 have been entered, all are cleared.
@@ -100,14 +102,57 @@
   - For the player to be hit by a Holy Grail, car, or Arrow, any overlap of the player’s sprite with the respective Holy Grail, car, or Arrow’s sprite will result in a collision.
   - For crocodiles, the player’s sprite must have at least 1/3 of overlap for a collision to be detected.
 
+##Controls
+
+  - The player will control the treasure hunter by pressing down the arrow keys (up for up, down for down, etc.). 
+  - While a key is pressed down, the user will move in that direction. 
+  - All movement animation will be the same, regardles of direction of motion.
+  
+##Score
+
+  - When the player gets to a temple, he/she will earn points equal to the amount of time left times a difficulty factor.
+    - Difficulty factor will start at 1.25 and be squared for every difficulty level. (1.25, 1.5625, 2.44140625, 5.96046448, 35.5271368, etc.)
+    - Difficulty factor will increase with each level.
+  - Score cannot decrease.
+    
+##Lives
+
+  - Player will start with three lives.
+    - Holy Grails will appear randomly with a small chance throughout the game and if the user hits one then he/she will be given another life.
+    - Lives will be lost when hit by a car, arrow, or crocodile or when the player falls into the river.
+    - Also, a life will be lost if the user cannot make it to a temple within the alloted time.
+  - Lives will be a member variable of the window as a new treasure hunter object will be made for each time the treasure hunter spawns at the bottom of the screen.
+
 ##Game Layout
+
 ###Title Screen
 ![Title Screen](./Images/Title Screen.gif)
   - Credits (Desert): http://spritedatabase.net/files/gameboy/732/Background/SK_ScorchingDesert.png 
+  
+  - In this screen, the basic background of the window is the desert gif file while there is a text box with directions in front.
+  - The only interactive button on this screen is the "Begin!" button, which will start the game by deleting the welcome text box and populating the screen with the player, temples, river, and guardians.
+    - It will also start the timer (Potential countdown to prepare the user) to generate logs, crocodiles, and holy grails.
+    - Game will start on button click and user will be allowed to move (after countdown if implemented).
+  
 ###Game Screen
 ![Game Screen](./Images/Gameplay Screen.gif)
+
+  - In this screen, the game timer will run and all functionality will be used. Arrow keys will move the user's character and cars, logs, gators, holy grails, guardians, and arrows will all move based on the timer.
+  - Each level will have a faster timer and thus faster moving objects until it becomes impossible.
+  - When the player dies or reaches a temple, the character will respawn at the bottom and the time (in the corner) will reset to its starting value.
+    - Appropiate score or life deduction will be done.
+    - Potential to add a countdown timer to reset the level and disable movement until the timer hits 0.
+  - As cars, logs, and alligators pass through the edges of the screen, they will delete themselves to free up memory.
+    - New cars, logs, and alligators will randomly spawn at designated points and slide into view.
+  - Text boxes with labels and appropiate values will show the time, score, and remaining lives at the top of the screen.
+  - Pressing "P" will pause the game and send the game to the pause screen.
+
 ###Pause Screen
 ![Pause Screen](./Images/Pause Screen.gif)
+
+  - This screen will just stop the timer and add a text box with controls and a notification that the game is paused.
+  - The only button will be to resume the game (optional countdown timer to allow the user to prepare).
+    - This button will restart the timer and cause the game to continue.
 
 ----
 
