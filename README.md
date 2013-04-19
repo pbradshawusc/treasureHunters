@@ -1,12 +1,12 @@
 # Game - Programming Assignments Private Repository
 ### Student Information
-  + Name: Tommy Trojan
-  + USC Email: ttrojan@usc.edu
-  + USC ID: 0123456789
+  + Name: Patrick Bradshaw
+  + USC Email: pbradsha@usc.edu
+  + USC ID: 8696925839
 
 ### Game Information
-  + Game Name: myAwsomeGame
-  + Game Description: One sentence game description
+  + Game Name: Treasure Hunters!
+  + Game Description: Using the mechanics and game goals of Frogger, Treasure Hunters! takes place in an Egyptian setting where the player tries to avoid dangerous cars and alligators to reach the pyramids.
   + [Game Design Doc](GameDesignDoc.md)
 
 
