@@ -11,8 +11,8 @@
     - Movement: Horizontal one way, direction depending on row generated
     - Generation: Randomly at the left or right edge depending on row. All cars/logs/alligators in the same row will move the same direction at the same speed.
     - Sprites:
-    - ![Car Left 1](/home/cs102/Desktop/Treasure Hunters!/Car Left 1.gif) 
-    - ![Car Left 2](/home/cs102/Desktop/Treasure Hunters!/Car Left 2.gif) 
+    - ![Car Left 1](./Images/Car Left 1.gif) 
+    - ![Car Left 2](/home/cs102/Desktop/TreasureHunters!/Car Left 2.gif) 
     - ![Car Right 1](/home/cs102/Desktop/Treasure Hunters!/Car Right 1.gif)
     - ![Car Right 2](/home/cs102/Desktop/Treasure Hunters!/Car Right 2.gif)
     - Credit: http://spritedatabase.net/files/neogeo/836/Sprite/MSCar2.gif 
@@ -25,34 +25,29 @@
     - Generation: Random off-screen and then moves onscreen
     - Note: Gives player extra life
     - Sprite:
-
     - Credit:  http://officialpetsociety.files.wordpress.com/2011/09/medieval-goblet.png 
   1. Guardians
     - Movement: Horizontal back and forth in their set boundaries (1-3 Guardians, covers whole horizontal boundary)
     - Generation: Random within their set boundaries at the beginning of a level/life
     - Note: Shoot Arrows vertically down the screen at random intervals within a set time range
     - Sprite:
-
     - Credit: http://spritedatabase.net/file/9197 
   1. Arrows 
     - Movement: Vertically down the screen at constant speed
     - Generation: On random intervals within a set time frame always at the location of the shooting Guardian
     - Sprite:
-
     - Credit: See Guardian
   1. Temples 
     - Movement: None
     - Generation: Always at the same places on the top of the screen
     - Note: 5 temples are the end goals for the treasure hunter
     - Sprite: 
-
     - Credit: http://images.wikia.com/kirby/en/images/d/d2/KEY_Pyramid_sprite.png 
   1. River 
     - Movement: None, just rushing water animation
     - Generation: Always in the same place
     - Note: Used for object detection of falling off of a log
     - Sprite:
-    
     - Credit: http://img393.imageshack.us/img393/730/water6cx.png 
  
 ##Basic Functionality
