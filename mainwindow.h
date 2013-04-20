@@ -12,6 +12,7 @@
 #include <QTextEdit>
 #include <QGraphicsPixmapItem>
 #include <vector>
+#include "treasurehunter.h"
 
 #define WINDOW_MAX_X 350
 #define WINDOW_MAX_Y 323
@@ -50,6 +51,8 @@ private:
     int numLives;
     /** A tracker for the score of the user */
     int score;
+    /** A tracker of whether the game is active to limit movement of the player */
+    bool paused;
     //Below are all of the pix maps needed for the game
     QPixmap Arrow;
     QPixmap CarLeft1;
@@ -77,6 +80,8 @@ private:
     QPixmap WaterPart1;
     QPixmap WaterPart2;
     QPixmap WaterPart3;
+    //Below are all of the objects needed for the game (or their containers)
+    TreasureHunter *player;
     
 protected:
     /** This will catch the events of pressing down a key. */

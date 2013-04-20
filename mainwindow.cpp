@@ -43,9 +43,6 @@ MainWindow::MainWindow()  {
     GlobalTimer = new QTimer();
     GlobalTimer->setInterval(5);
     connect(GlobalTimer,SIGNAL(timeout()),this,SLOT(move()));
-
-    //we must set the focus on the window so that it will catch key presses
-    setFocus();
     
     //Now let's create all of the pixmaps we'll need for the game
     QImage qi("./Images/Arrow", "gif");
@@ -129,7 +126,11 @@ MainWindow::MainWindow()  {
     
     Background = new QGraphicsPixmapItem(Desert);
     Scene->addItem(Background);
+    
+    paused = true;
 
+    setFocus();
+    //setFocusPolicy(Qt::StrongFocus);
 }
 
 MainWindow::~MainWindow(){
@@ -144,7 +145,11 @@ void MainWindow::show() {
 }
 
 void MainWindow::startGame() {
-
+  player = new TreasureHunter(&TreasureHunterStill, &TreasureHunterLeft1, &TreasureHunterLeft2, &TreasureHunterRight1, &TreasureHunterRight2, 335, 585, 1);
+  Scene->addItem(player);
+  delete Intro;
+  delete Start;
+  paused = false;
 }
 
 void MainWindow::move(){
@@ -152,12 +157,21 @@ void MainWindow::move(){
 }
 
 void MainWindow::keyPressEvent( QKeyEvent *e ){
+Start = new QPushButton( View );
+    Start->setGeometry(300,365,100,40);
+    Start->setText("&Let's Play!");
+player->move(0);
+if(!paused && (player != NULL)){
   switch( e->key() ){
     case Qt::Key_Left:
+      player->move(3);
     case Qt::Key_Right:
+      player->move(1);
     case Qt::Key_Up:
+      player->move(0);
     case Qt::Key_Down:
-    
-    ;
+      player->move(2);
   }
+  QWidget::keyPressEvent(e);
+}
 }
