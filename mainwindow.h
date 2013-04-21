@@ -7,12 +7,14 @@
 #include <QGraphicsRectItem>
 #include <QTimer>
 #include <QTimeLine>
+#include <QApplication>
 #include <QGraphicsItemAnimation>
 #include <QPushButton>
 #include <QTextEdit>
 #include <QGraphicsPixmapItem>
 #include <vector>
 #include "treasurehunter.h"
+#include "movingobject.h"
 
 #define WINDOW_MAX_X 350
 #define WINDOW_MAX_Y 323
@@ -43,6 +45,9 @@ private:
     QTextEdit *Intro;
     /** A (read only) Text Box that will show the user info about controls and such while the game is paused. */
     QTextEdit *PauseInfo;
+    QTextEdit *ShowScore;
+    QTextEdit *ShowLives;
+    QTextEdit *ShowTime;
     /** A background for the entire game. */
     QGraphicsPixmapItem *Background;
     /** A counter to keep track of the time that has passed (used in movement and score calculation) */
@@ -69,7 +74,7 @@ private:
     QPixmap Guardian3;
     QPixmap Guardian4;
     QPixmap HolyGrail;
-    QPixmap Log;
+    QPixmap LogI;
     QPixmap PyramidEmpty;
     QPixmap PyramidFull;
     QPixmap TreasureHunterStill;
@@ -82,6 +87,13 @@ private:
     QPixmap WaterPart3;
     //Below are all of the objects needed for the game (or their containers)
     TreasureHunter *player;
+    std::vector<movingObject *> pieces;
+    //Ensure that objects don't overlap on the map.
+    int difficulty;
+    int cr;
+    int cl;
+    int l1;
+    int l2;
     
 protected:
     /** This will catch the events of pressing down a key. */

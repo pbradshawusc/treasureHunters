@@ -63,3 +63,19 @@ void TreasureHunter::move(int direction){
   }
   setPos(x,y);
 }
+
+int TreasureHunter::getX(){
+  return x;
+}
+
+int TreasureHunter::getY(){
+  return y;
+}
+
+int TreasureHunter::getWidth(){
+  return width;
+}
+
+int TreasureHunter::getHeight(){
+  return height;
+}
