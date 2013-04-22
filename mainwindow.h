@@ -41,6 +41,7 @@ public:
     void show();  
     /** Allows Guardians to generate arrows on their own timers */
     void addArrow(int x, int y);
+    /** This will process the events of pressing down a key that are caught by the QScene */
     void keyEvent( QKeyEvent *e );
     
 private:
@@ -59,9 +60,13 @@ private:
     QTextEdit *Intro;
     /** A (read only) Text Box that will show the user info about controls and such while the game is paused. */
     QTextEdit *PauseInfo;
+    /** A (read only) Text Box that will show the user's name and score */
     QTextEdit *ShowScore;
+    /** A (read only) Text Box that will show the user's number of remaining lives */
     QTextEdit *ShowLives;
+    /** A (read only) Text Box that will show the remaining time */
     QTextEdit *ShowTime;
+    /** A text box for the user to enter his/her desired name */
     QTextEdit *Name;
     /** A background for the entire game. */
     QGraphicsPixmapItem *Background;
@@ -120,11 +125,13 @@ private:
     bool onLog;
     int numTempHit;
     int interval;
+    bool pauseScreenOn;
     
 protected:
     /** This will catch the events of pressing down a key. */
     //void keyPressEvent( QKeyEvent *e );
     void loseLife();
+    void togglePause();
 
 public slots:
    /** A slot to start the game. Triggered when the start button is clicked. */

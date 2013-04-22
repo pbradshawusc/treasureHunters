@@ -54,27 +54,12 @@ void TreasureHunter::move(int direction){
   }
   else if(direction == 1){
     x += vX;
-    if(y!=580){
-    y += vY;
-    }
   }
   else if(direction == 2){
-    if(y-vY*2 > 175-height*2){
-      y-=vY*2;
-    }
-    else if(y-vY*2 > 175-height*3){
-      y-=vY;
-      if((x>=30 && x<=110)||(x>=30+140 && x<=110+140)||(x>=30+140*2 && x<=110+140*2)||(x>=30+140*3 && x<=110+140*3)||(x>=30+140*4 && x<=110+140*4)){
-        y-=vY;
-      }
-    }
-    else {
-      y-=vY;
-    }
+    y-=vY;
   }
   else if(direction == 3){
-    x = x-vX*2;
-    //y += vY;
+    x = x-vX;
   }
   if(x+width > 700){
     x = 700-width;
@@ -82,8 +67,8 @@ void TreasureHunter::move(int direction){
   else if(x<0){
     x = 0;
   }
-  if(y > 581){
-    y = 580;
+  if(y > 531){
+    y = 530;
   }
   setPos(x,y);
 }

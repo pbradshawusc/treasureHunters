@@ -56,7 +56,7 @@ MainWindow::MainWindow() : QMainWindow()  {
     Intro->setAlignment(Qt::AlignCenter);
     Intro->append("Guide your hunter with WASD and avoid the cars and gators! Catch the Holy Grail for an extra life!");
     Intro->setAlignment(Qt::AlignCenter);
-    Intro->append("Press \"P\" to pause.");
+    Intro->append("Press \"P\" to toggle pause.");
     QPalette p = Intro->palette();
     p.setColor(QPalette::Base, QColor( 234, 206, 106 ));
     Intro->setPalette(p);
@@ -247,6 +247,8 @@ void MainWindow::startGame() {
   Restart->setGeometry(290, 580, 80, 30);
   Restart->setVisible(false);
   connect(Restart, SIGNAL(clicked()), this, SLOT(restart()));
+  
+  pauseScreenOn = false;
   
   View->setFocus();
 }
@@ -462,8 +464,7 @@ void MainWindow::move(){
   }
   timeLeft--;
   if(timeLeft == 0){
-    timeLeft = 12000;
-    //GlobalTimer->stop();
+    loseLife();
   }
 }
 
@@ -501,13 +502,23 @@ void MainWindow::keyEvent( QKeyEvent *e ){
     switch( e->key() ){
       case Qt::Key_A:
         player->move(3);
+        break;
       case Qt::Key_D:
         player->move(1);
+        break;
       case Qt::Key_W:
         player->move(2);
+        break;
       case Qt::Key_S:
         player->move(0);
+        break;
+      case Qt::Key_P:
+        togglePause();
+        break;
     }
+  }
+  else if(paused && e->key() == Qt::Key_P){
+    togglePause();
   }
 }
 
@@ -546,5 +557,37 @@ void MainWindow::restart(){
   numTempHit = 0;
   for(std::vector<Temple *>::iterator it = temples.begin(); it != temples.end(); ++it){
     (*it)->setEmpty();
+  }
+}
+
+void MainWindow::togglePause(){
+  if(pauseScreenOn){
+    GlobalTimer->start();
+    paused = false;
+    pauseScreenOn = false;
+    if(PauseInfo != NULL){
+      delete PauseInfo;
+    }
+  }
+  else {
+    GlobalTimer->stop();
+    paused = true;
+    pauseScreenOn = true;
+    PauseInfo = new QTextEdit( View );
+    PauseInfo->setGeometry(175,100,350,250);
+    PauseInfo->setReadOnly(true);
+    PauseInfo->setFontPointSize(25);
+    PauseInfo->setText("Paused");
+    PauseInfo->setAlignment(Qt::AlignCenter);
+    PauseInfo->setFontPointSize(14);
+    PauseInfo->append(" ");
+    PauseInfo->setAlignment(Qt::AlignCenter);
+    PauseInfo->append("Guide your hunter with WASD and avoid the cars and gators! Catch the Holy Grail for an extra life!");
+    PauseInfo->setAlignment(Qt::AlignCenter);
+    PauseInfo->append("Press \"P\" to toggle pause.");
+    QPalette p = Intro->palette();
+    p.setColor(QPalette::Base, QColor( 234, 206, 106 ));
+    PauseInfo->setPalette(p);
+    PauseInfo->setVisible(true);
   }
 }
