@@ -1,6 +1,6 @@
 #include "treasurehunter.h"
 
-TreasureHunter::TreasureHunter(QPixmap* s, QPixmap* l1, QPixmap* l2, QPixmap* r1, QPixmap* r2, int nx, int ny, int dif) : QGraphicsPixmapItem(*s) {
+TreasureHunter::TreasureHunter(QPixmap* s, QPixmap* l1, QPixmap* l2, QPixmap* r1, QPixmap* r2, int nx, int ny) : QGraphicsPixmapItem(*s) {
   x = nx;
   y = ny;
   setPos(x,y);
@@ -13,7 +13,6 @@ TreasureHunter::TreasureHunter(QPixmap* s, QPixmap* l1, QPixmap* l2, QPixmap* r1
   left2 = l2;
   right1 = r1;
   right2 = r2;
-  difficulty = dif;
   animation = 0;
 }
 

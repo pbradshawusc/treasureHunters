@@ -6,7 +6,7 @@
 class Log : public movingObject {
   public:
     /** A constructor to set a pointer to the parent MainWindow, parent image, location, direction, and difficulty */
-    Log(MainWindow* m, QPixmap *pm, int nx, int ny, int d, int dif);
+    Log(MainWindow* m, QPixmap *pm, int nx, int ny, int d);
     /** A method to move the log in the proper direction at the proper time */
     void move(int timer);
     /** A method to determine if the log and given Treasure Hunter are colliding */

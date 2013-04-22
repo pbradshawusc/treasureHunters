@@ -1,7 +1,6 @@
 #include "arrow.h"
 
-Arrow::Arrow(MainWindow* m, QPixmap *pm, int nx, int ny, int dif) : movingObject(m, pm, nx, ny){
-  difficulty = dif;
+Arrow::Arrow(MainWindow* m, QPixmap *pm, int nx, int ny) : movingObject(m, pm, nx, ny){
   vX = 0;
   vY = 1;
   width = 20;

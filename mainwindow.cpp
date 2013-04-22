@@ -157,16 +157,11 @@ MainWindow::MainWindow() : QMainWindow()  {
     paused = true;
 
     this->setFocus();
-    //std::cout<<hasFocus()<<std::endl;
-    //setFocusPolicy(Qt::StrongFocus);
     
     srand(time(NULL));
 }
 
 MainWindow::~MainWindow(){
-  //delete View;
-  //delete Scene;
-  //delete GlobalTimer;
   for(std::vector<Log *>::iterator it = logs.begin(); it != logs.end(); ++it){
     delete (*it);
     logs.erase(it);
@@ -218,7 +213,7 @@ void MainWindow::show() {
 }
 
 void MainWindow::startGame() {
-  player = new TreasureHunter(&TreasureHunterStill, &TreasureHunterLeft1, &TreasureHunterLeft2, &TreasureHunterRight1, &TreasureHunterRight2, 335, 530, 1);
+  player = new TreasureHunter(&TreasureHunterStill, &TreasureHunterLeft1, &TreasureHunterLeft2, &TreasureHunterRight1, &TreasureHunterRight2, 335, 530);
   Scene->addItem(player);
   player->setZValue(100000);
   
@@ -243,8 +238,6 @@ void MainWindow::startGame() {
   guardians.push_back(new Guardian(this, &Guardian1, &Guardian2, &Guardian3, &Guardian4, 30, 70, 0, 700/3, rand()));
   guardians.push_back(new Guardian(this, &Guardian1, &Guardian2, &Guardian3, &Guardian4, 330, 70, 700/3, (700/3)*2, rand()));
   guardians.push_back(new Guardian(this, &Guardian1, &Guardian2, &Guardian3, &Guardian4, 630, 70, (700/3)*2, (700/3)*3, rand()));
-  //pieces.push_back(new HolyGrail(this, &HolyGrailI, 100, 100, rand()));
-  //pieces[pieces.size()-1]->setZValue(1000);
   for(unsigned int i = 0; i < guardians.size(); i++){
     Scene->addItem(guardians[i]);
   }
@@ -252,7 +245,6 @@ void MainWindow::startGame() {
   score = 0;
   numLives = 3;
   GlobalTimer->start();
-  difficulty = 1;
   cr = 0;
   cl = 0;
   l1 = 0;
@@ -287,6 +279,8 @@ void MainWindow::startGame() {
   ShowScore->setVisible(true);
   ShowLives->setVisible(true);
   ShowTime->setVisible(true);
+  
+  difficulty = 1;
   
   numTempHit = 0;
   
@@ -328,14 +322,14 @@ void MainWindow::move(){
   l3++;
   l4++;
   if(random < -980 && cr > 80){
-    cars.push_back(new Car(this, &CarRight1, &CarRight2, -80, 426, 1, 1));
+    cars.push_back(new Car(this, &CarRight1, &CarRight2, -80, 426, 1));
     Scene->addItem(cars[cars.size()-1]);
     cr = 0;
   }
   random = std::rand() % 2000;
   random -= 1000;
   if(random > 980 && cl > 80){
-    cars.push_back(new Car(this, &CarLeft1, &CarLeft2, WINDOW_MAX_X*2, 476, -1, 1));
+    cars.push_back(new Car(this, &CarLeft1, &CarLeft2, WINDOW_MAX_X*2, 476, -1));
     Scene->addItem(cars[cars.size()-1]);
     cl = 0;
   }
@@ -343,11 +337,11 @@ void MainWindow::move(){
   random -= 1000;
   if(random > 970 && l1 > 100){
     if(random > 998){
-      crocodiles.push_back(new Crocodile(this, &CrocodileRight1, &CrocodileRight2, -100, 175, 1, 1));
+      crocodiles.push_back(new Crocodile(this, &CrocodileRight1, &CrocodileRight2, -100, 175, 1));
       Scene->addItem(crocodiles[crocodiles.size()-1]);
     }
     else{
-      logs.push_back(new Log(this, &LogI, -100, 175, 1, 1));
+      logs.push_back(new Log(this, &LogI, -100, 175, 1));
       Scene->addItem(logs[logs.size()-1]);
     }
     l1 = 0;
@@ -356,11 +350,11 @@ void MainWindow::move(){
   random -= 1000;
   if(random < -970 && l2 > 100){
     if(random < -997){
-      crocodiles.push_back(new Crocodile(this, &CrocodileLeft1, &CrocodileLeft2, WINDOW_MAX_X*2, 225, -1, 1));
+      crocodiles.push_back(new Crocodile(this, &CrocodileLeft1, &CrocodileLeft2, WINDOW_MAX_X*2, 225, -1));
       Scene->addItem(crocodiles[crocodiles.size()-1]);
     }
     else {
-      logs.push_back(new Log(this, &LogI, WINDOW_MAX_X*2, 225, -1, 1));
+      logs.push_back(new Log(this, &LogI, WINDOW_MAX_X*2, 225, -1));
       Scene->addItem(logs[logs.size()-1]);
     }
     l2 = 0;
@@ -369,11 +363,11 @@ void MainWindow::move(){
   random -= 1000;
   if(random > 970 && l3 > 100){
     if(random > 996){
-      crocodiles.push_back(new Crocodile(this, &CrocodileRight1, &CrocodileRight2, -100, 275, 1, 1));
+      crocodiles.push_back(new Crocodile(this, &CrocodileRight1, &CrocodileRight2, -100, 275, 1));
       Scene->addItem(crocodiles[crocodiles.size()-1]);
     }
     else{
-      logs.push_back(new Log(this, &LogI, -100, 275, 1, 1));
+      logs.push_back(new Log(this, &LogI, -100, 275, 1));
       Scene->addItem(logs[logs.size()-1]);
     }
     l3 = 0;
@@ -382,11 +376,11 @@ void MainWindow::move(){
   random -= 1000;
   if(random < -970 && l4 > 100){
     if(random < -995){
-      crocodiles.push_back(new Crocodile(this, &CrocodileLeft1, &CrocodileLeft2, WINDOW_MAX_X*2, 325, -1, 1));
+      crocodiles.push_back(new Crocodile(this, &CrocodileLeft1, &CrocodileLeft2, WINDOW_MAX_X*2, 325, -1));
       Scene->addItem(crocodiles[crocodiles.size()-1]);
     }
     else {
-      logs.push_back(new Log(this, &LogI, WINDOW_MAX_X*2, 325, -1, 1));
+      logs.push_back(new Log(this, &LogI, WINDOW_MAX_X*2, 325, -1));
       Scene->addItem(logs[logs.size()-1]);
     }
     l4 = 0;
@@ -518,36 +512,7 @@ void MainWindow::move(){
   }
 }
 
-/*void QMainWindow::keyPressEvent( QKeyEvent *e ){
-  this->keyPressEvent(e);
-}*/
-
-/*void QGraphicsScene::keyPressEvent(QKeyEvent *e){
-  this->MainWindow::keyPressEvent(e);
-}
-
-void QGraphicsView::keyPressEvent(QKeyEvent *e){
-  this->MainWindow::keyPressEvent(e);
-}*/
-/*
-void MainWindow::keyPressEvent( QKeyEvent *e ){
-  std::cout<<hasFocus()<<std::endl;
-  if(!paused && (player != NULL)){
-    switch( e->key() ){
-      case Qt::Key_Left:
-        player->move(3);
-      case Qt::Key_Right:
-        player->move(1);
-      case Qt::Key_Up:
-        player->move(0);
-      case Qt::Key_Down:
-        player->move(2);
-    }
-  }
-}*/
-
 void MainWindow::keyEvent( QKeyEvent *e ){
-  //std::cout<<hasFocus()<<std::endl;
   if(!paused && (player != NULL) && timeLeft < 12001){
     switch( e->key() ){
       case Qt::Key_A:
@@ -573,7 +538,7 @@ void MainWindow::keyEvent( QKeyEvent *e ){
 }
 
 void MainWindow::addArrow(int x, int y) {
-  arrows.push_back(new Arrow(this, &ArrowI, x, y, difficulty));
+  arrows.push_back(new Arrow(this, &ArrowI, x, y));
   Scene->addItem(arrows[arrows.size()-1]);
   arrows[arrows.size()-1]->setZValue(9999);
 }

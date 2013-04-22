@@ -6,7 +6,7 @@
 class TreasureHunter : public QGraphicsPixmapItem{
   public:
     /** A constructor to set pointers to the parent images, and set the location and difficulty */
-    TreasureHunter(QPixmap* s, QPixmap* l1, QPixmap* l2, QPixmap* r1, QPixmap* r2, int nx, int ny, int dif);
+    TreasureHunter(QPixmap* s, QPixmap* l1, QPixmap* l2, QPixmap* r1, QPixmap* r2, int nx, int ny);
     /** A method to animate the Treasure Hunter at the proper time through it's various stages of animation */
     void animate(int timer);
     /** A method to make the Treasure Hunter jump in the proper direction and set it's new location */
@@ -36,8 +36,6 @@ class TreasureHunter : public QGraphicsPixmapItem{
     int vX;
     /** The y velocity (jump height) of the Treasure Hunter */
     int vY;
-    /** A tracker for the current difficulty */
-    int difficulty;
     /** A tracker for the current stage of animation */
     int animation;
     /** A pointer to the parent image for the still stage of animation */

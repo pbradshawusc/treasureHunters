@@ -1,15 +1,14 @@
 #include "log.h"
 
-Log::Log(MainWindow* m, QPixmap *pm, int nx, int ny, int d, int dif) : movingObject(m, pm, nx, ny) {
+Log::Log(MainWindow* m, QPixmap *pm, int nx, int ny, int d) : movingObject(m, pm, nx, ny) {
   vX = d;
   vY = 0;
   width = 100;
   height = 50;
-  difficulty = dif;
 }
 
 void Log::move(int timer){
-  if(timer % 1/difficulty == 0){
+  if(timer % 1 == 0){
     x+=vX;
     setPos(x,y);
   }

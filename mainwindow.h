@@ -123,8 +123,6 @@ private:
     std::vector<HolyGrail *> grails;
     std::vector<River *> rivers;
     //Ensure that objects don't overlap on the map.
-    /** keeps track of the difficulty level of the game */
-    int difficulty;
     /** ensures that cars aren't spawned overlapping each other (counter) row 1 */
     int cr;
     /** ensures that cars aren't spawned overlapping each other (counter) row 2 */
@@ -145,6 +143,8 @@ private:
     int interval;
     /** keeps track of whether the pause screen is currently on or off */
     bool pauseScreenOn;
+    /** A tracker for the current difficulty level */
+    int difficulty;
 
 public slots:
    /** A slot to start the game. Triggered when the start button is clicked. */
