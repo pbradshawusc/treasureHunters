@@ -15,6 +15,16 @@
 #include <vector>
 #include "treasurehunter.h"
 #include "movingobject.h"
+#include "scene.h"
+
+#include "river.h"
+#include "car.h"
+#include "log.h"
+#include "crocodile.h"
+#include "temple.h"
+#include "guardian.h"
+#include "arrow.h"
+#include "holygrail.h"
 
 #define WINDOW_MAX_X 350
 #define WINDOW_MAX_Y 323
@@ -29,10 +39,13 @@ public:
     ~MainWindow();
     /** Makes the game visible */
     void show();  
+    /** Allows Guardians to generate arrows on their own timers */
+    void addArrow(int x, int y);
+    void keyEvent( QKeyEvent *e );
     
 private:
     /** The scene that holds the view where all of the implementation takes place. Dynamically allocated. */
-    QGraphicsScene *Scene;
+    QScene *Scene;
     /** The view that holds all of the objects that act out the implementation. Dynamically allocated.*/
     QGraphicsView *View;
     /** The timer used to coordinate the animation of sliding tiles. Set to 5ms countdown. */
@@ -59,7 +72,7 @@ private:
     /** A tracker of whether the game is active to limit movement of the player */
     bool paused;
     //Below are all of the pix maps needed for the game
-    QPixmap Arrow;
+    QPixmap ArrowI;
     QPixmap CarLeft1;
     QPixmap CarLeft2;
     QPixmap CarRight1;
@@ -73,7 +86,7 @@ private:
     QPixmap Guardian2;
     QPixmap Guardian3;
     QPixmap Guardian4;
-    QPixmap HolyGrail;
+    QPixmap HolyGrailI;
     QPixmap LogI;
     QPixmap PyramidEmpty;
     QPixmap PyramidFull;
@@ -87,7 +100,15 @@ private:
     QPixmap WaterPart3;
     //Below are all of the objects needed for the game (or their containers)
     TreasureHunter *player;
-    std::vector<movingObject *> pieces;
+    //std::vector<movingObject *> pieces;
+    std::vector<Log *> logs;
+    std::vector<Arrow *> arrows;
+    std::vector<Temple *> temples;
+    std::vector<Guardian *> guardians;
+    std::vector<Crocodile *> crocodiles;
+    std::vector<Car *> cars;
+    std::vector<HolyGrail *> grails;
+    std::vector<River *> rivers;
     //Ensure that objects don't overlap on the map.
     int difficulty;
     int cr;
@@ -97,7 +118,7 @@ private:
     
 protected:
     /** This will catch the events of pressing down a key. */
-    void keyPressEvent( QKeyEvent *e );
+    //void keyPressEvent( QKeyEvent *e );
 
 public slots:
    /** A slot to start the game. Triggered when the start button is clicked. */

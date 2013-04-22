@@ -1,6 +1,6 @@
 #include "crocodile.h"
 
-Crocodile::Crocodile(QPixmap *pm, QPixmap *c, int nx, int ny, int d, int dif) : movingObject(pm, nx, ny) {
+Crocodile::Crocodile(MainWindow* m, QPixmap *pm, QPixmap *c, int nx, int ny, int d, int dif) : movingObject(m, pm, nx, ny) {
   vX = d;
   vY = 0;
   width = 100;
@@ -22,7 +22,7 @@ bool Crocodile::collide(TreasureHunter *th){
 }
 
 void Crocodile::animate(int timer){
-  if(timer % 1/difficulty == 0){
+  if(timer % 40/difficulty == 0){
     if(animation == 0){
       setPixmap(*c2);
     }

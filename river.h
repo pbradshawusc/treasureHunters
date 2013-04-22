@@ -5,7 +5,7 @@
 
 class River : public movingObject {
   public:
-    River(QPixmap *pm, QPixmap *pm2, QPixmap *pm3, int nx, int ny);
+    River(MainWindow* m, QPixmap *pm, QPixmap *pm2, QPixmap *pm3, int nx, int ny);
     void move(int timer);
     bool collide(TreasureHunter *th);
     void animate(int timer);

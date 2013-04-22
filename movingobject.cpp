@@ -1,11 +1,13 @@
 #include "movingobject.h"
+#include "mainwindow.h"
 
-movingObject::movingObject( QPixmap *p, int nx, int ny ){
+movingObject::movingObject( MainWindow *m, QPixmap *p, int nx, int ny ){
   pixMap = p;
   setPixmap( *p);
   x = nx;
   y = ny;
   setPos(x,y);
+  mw = m;
 }
 
 int movingObject::getX(){

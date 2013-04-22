@@ -20,3 +20,4 @@ Makefile
 #Qt Reproducable Files
 *.pro
 moc_mainwindow.cpp
+moc*

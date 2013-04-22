@@ -8,15 +8,22 @@
 #include <iostream>
 #include <cmath>
 #include <cstdlib>
+#include <string>
+#include <QString>
+#include <sstream>
 //Here are all of the game pieces
 #include "river.h"
 #include "car.h"
 #include "log.h"
 #include "crocodile.h"
+#include "temple.h"
+#include "guardian.h"
+#include "arrow.h"
+#include "holygrail.h"
 
 MainWindow::MainWindow() : QMainWindow()  {
     //We need a scene and a view to do graphics in QT
-    Scene = new QGraphicsScene();
+    Scene = new QScene(this);
     View = new QGraphicsView( Scene );
     
     Start = new QPushButton( View );
@@ -43,7 +50,7 @@ MainWindow::MainWindow() : QMainWindow()  {
     Intro->setAlignment(Qt::AlignCenter);
     Intro->append("Can you guide your hunter through the treacherous desert to the pyramids?");
     Intro->setAlignment(Qt::AlignCenter);
-    Intro->append("Guide your hunter with the arrow keys and avoid the cars and gators! Catch the Holy Grail for an extra life!");
+    Intro->append("Guide your hunter with WASD and avoid the cars and gators! Catch the Holy Grail for an extra life!");
     Intro->setAlignment(Qt::AlignCenter);
     Intro->append("Press \"P\" to pause.");
     QPalette p = Intro->palette();
@@ -51,13 +58,13 @@ MainWindow::MainWindow() : QMainWindow()  {
     Intro->setPalette(p);
     
     GlobalTimer = new QTimer();
-    GlobalTimer->setInterval(5);
+    GlobalTimer->setInterval(7);
     connect(GlobalTimer,SIGNAL(timeout()),this,SLOT(move()));
     
     //Now let's create all of the pixmaps we'll need for the game
     QImage qi("./Images/Arrow", "gif");
-    Arrow.convertFromImage( qi );
-    Arrow = Arrow.scaled(20,40);
+    ArrowI.convertFromImage( qi );
+    ArrowI = ArrowI.scaled(20,40);
     qi.load("./Images/Desert", "png");
     Desert.convertFromImage( qi );
     Desert = Desert.scaled(WINDOW_MAX_X*2 - 2, WINDOW_MAX_Y*2 - 2);
@@ -101,8 +108,8 @@ MainWindow::MainWindow() : QMainWindow()  {
     Guardian4.convertFromImage( qi );
     Guardian4 = Guardian4.scaled(50,40);
     qi.load("./Images/Holy Grail", "gif");
-    HolyGrail.convertFromImage( qi );
-    HolyGrail = HolyGrail.scaled(60,60);
+    HolyGrailI.convertFromImage( qi );
+    HolyGrailI = HolyGrailI.scaled(60,60);
     qi.load("./Images/Water Sprite Part 1", "png");
     WaterPart1.convertFromImage( qi );
     WaterPart1 = WaterPart1.scaled(WINDOW_MAX_X*2 - 2,200);
@@ -143,7 +150,7 @@ MainWindow::MainWindow() : QMainWindow()  {
     std::cout<<hasFocus()<<std::endl;
     //setFocusPolicy(Qt::StrongFocus);
     
-    srand(0);
+    srand(time(NULL));
 }
 
 MainWindow::~MainWindow(){
@@ -158,37 +165,38 @@ void MainWindow::show() {
 }
 
 void MainWindow::startGame() {
-  player = new TreasureHunter(&TreasureHunterStill, &TreasureHunterLeft1, &TreasureHunterLeft2, &TreasureHunterRight1, &TreasureHunterRight2, 335, 585, 1);
+  player = new TreasureHunter(&TreasureHunterStill, &TreasureHunterLeft1, &TreasureHunterLeft2, &TreasureHunterRight1, &TreasureHunterRight2, 335, 580, 1);
   Scene->addItem(player);
+  player->setZValue(100000);
   
-  ShowScore = new QTextEdit(View);
-  ShowLives = new QTextEdit(View);
-  ShowTime = new QTextEdit(View);
-  ShowScore->setReadOnly(true);
-  ShowLives->setReadOnly(true);
-  ShowTime->setReadOnly(true);
-  QPalette p = Intro->palette();
-  p.setColor(QPalette::Base, QColor( 234, 206, 106 ));
-  ShowScore->setPalette(p);
-  ShowLives->setPalette(p);
-  ShowTime->setPalette(p);
-  ShowScore->setGeometry(0,0,100,100);
-  //ShowLives->setGeometry(150,5,20,10);
-  //ShowTime->setGeometry(350,5,20,10);
-  ShowScore->setText("Score");
-  ShowLives->setText("Lives");
-  ShowTime->setText("Time");
-  
-  delete Intro;
-  delete Start;
-  
+  Intro->setVisible(false);
+  Start->setVisible(false);
+    
   paused = false;
-  pieces.push_back(new River(&WaterPart1, &WaterPart2, &WaterPart3, 0, 175));
-  //pieces.push_back(new Car(&CarRight1, &CarRight2, 0, 350, 1, 1));
-  for(unsigned int i = 0; i < pieces.size(); i++){
-    Scene->addItem(pieces[i]);
+  //Add River
+  rivers.push_back(new River(this, &WaterPart1, &WaterPart2, &WaterPart3, 0, 175));
+  Scene->addItem(rivers[0]);
+  //Add Temples
+  temples.push_back(new Temple(this, &PyramidEmpty, &PyramidFull, 30, 115));
+  temples.push_back(new Temple(this, &PyramidEmpty, &PyramidFull, 30+140, 115));
+  temples.push_back(new Temple(this, &PyramidEmpty, &PyramidFull, 30+140*2, 115));
+  temples.push_back(new Temple(this, &PyramidEmpty, &PyramidFull, 30+140*3, 115));
+  temples.push_back(new Temple(this, &PyramidEmpty, &PyramidFull, 30+140*4, 115));
+  for(unsigned int i = 0; i < temples.size(); i++){
+    Scene->addItem(temples[i]);
   }
-  timeLeft = 10000;
+  //Add Guardians
+  guardians.push_back(new Guardian(this, &Guardian1, &Guardian2, &Guardian3, &Guardian4, 30, 70, 0, 700/3, rand()));
+  guardians.push_back(new Guardian(this, &Guardian1, &Guardian2, &Guardian3, &Guardian4, 330, 70, 700/3, (700/3)*2, rand()));
+  guardians.push_back(new Guardian(this, &Guardian1, &Guardian2, &Guardian3, &Guardian4, 630, 70, (700/3)*2, (700/3)*3, rand()));
+  //pieces.push_back(new HolyGrail(this, &HolyGrailI, 100, 100, rand()));
+  //pieces[pieces.size()-1]->setZValue(1000);
+  for(unsigned int i = 0; i < guardians.size(); i++){
+    Scene->addItem(guardians[i]);
+  }
+  timeLeft = 12000;
+  score = 0;
+  numLives = 3;
   GlobalTimer->start();
   difficulty = 1;
   cr = 0;
@@ -197,6 +205,33 @@ void MainWindow::startGame() {
   l2 = 0;
   /*this->setFocus();
   std::cout<<hasFocus()<<std::endl;*/
+  
+  ShowScore = new QTextEdit(View);
+  ShowLives = new QTextEdit(View);
+  ShowTime = new QTextEdit(View);
+  ShowScore->setReadOnly(true);
+  ShowLives->setReadOnly(true);
+  ShowTime->setReadOnly(true);
+  QPalette p = Intro->palette();
+  ShowScore->setGeometry(15,580,100,50);
+  ShowLives->setGeometry(300,12,70,30);
+  ShowTime->setGeometry(588,580,100,50);
+  std::stringstream s;
+  s << "Score: \n" << score;
+  QString qs = (s.str()).c_str();
+  ShowScore->setText(qs);
+  std::stringstream l;
+  l << "Lives: " << numLives;
+  qs = (l.str()).c_str();
+  ShowLives->setText(qs);
+  ShowTime->setText("Time");
+  p.setColor(QPalette::Base, QColor( 234, 206, 106 ));
+  ShowScore->setPalette(p);
+  ShowLives->setPalette(p);
+  ShowTime->setPalette(p);
+  ShowScore->setVisible(true);
+  ShowLives->setVisible(true);
+  ShowTime->setVisible(true);
 }
 
 void MainWindow::move(){
@@ -207,66 +242,182 @@ void MainWindow::move(){
   l1++;
   l2++;
   if(random < -980 && difficulty * cr > 80){
-    pieces.push_back(new Car(&CarRight1, &CarRight2, -80, 390, 1, 1));
-    Scene->addItem(pieces[pieces.size()-1]);
+    cars.push_back(new Car(this, &CarRight1, &CarRight2, -80, 426, 1, 1));
+    Scene->addItem(cars[cars.size()-1]);
     cr = 0;
   }
+  random = std::rand() % 2000;
+  random -= 1000;
   if(random > 980 && difficulty * cl > 80){
-    pieces.push_back(new Car(&CarLeft1, &CarLeft2, WINDOW_MAX_X*2, 440, -1, 1));
-    Scene->addItem(pieces[pieces.size()-1]);
+    cars.push_back(new Car(this, &CarLeft1, &CarLeft2, WINDOW_MAX_X*2, 476, -1, 1));
+    Scene->addItem(cars[cars.size()-1]);
     cl = 0;
   }
+  random = std::rand() % 2000;
+  random -= 1000;
   if(random > 970 && difficulty * l1 > 100){
     if(random > 994){
-      pieces.push_back(new Crocodile(&CrocodileRight1, &CrocodileRight2, -100, 300, 1, 1));
-      Scene->addItem(pieces[pieces.size()-1]);
+      crocodiles.push_back(new Crocodile(this, &CrocodileRight1, &CrocodileRight2, -100, 175, 1, 1));
+      Scene->addItem(crocodiles[crocodiles.size()-1]);
     }
     else{
-      pieces.push_back(new Log(&LogI, -100, 300, 1, 1));
-      Scene->addItem(pieces[pieces.size()-1]);
+      logs.push_back(new Log(this, &LogI, -100, 175, 1, 1));
+      Scene->addItem(logs[logs.size()-1]);
     }
     l1 = 0;
   }
+  random = std::rand() % 2000;
+  random -= 1000;
   if(random < -970 && difficulty * l2 > 100){
     if(random < -994){
-      pieces.push_back(new Crocodile(&CrocodileLeft1, &CrocodileLeft2, WINDOW_MAX_X*2, 250, -1, 1));
-      Scene->addItem(pieces[pieces.size()-1]);
+      crocodiles.push_back(new Crocodile(this, &CrocodileLeft1, &CrocodileLeft2, WINDOW_MAX_X*2, 225, -1, 1));
+      Scene->addItem(crocodiles[crocodiles.size()-1]);
     }
     else {
-      pieces.push_back(new Log(&LogI, WINDOW_MAX_X*2, 250, -1, 1));
-      Scene->addItem(pieces[pieces.size()-1]);
+      logs.push_back(new Log(this, &LogI, WINDOW_MAX_X*2, 225, -1, 1));
+      Scene->addItem(logs[logs.size()-1]);
     }
     l2 = 0;
   }
-  for(std::vector<movingObject *>::iterator it = pieces.begin(); it < pieces.end(); ++it){
+  random = std::rand() % 2000;
+  random -= 1000;
+  if(random > 970 && difficulty * l1 > 100){
+    if(random > 994){
+      crocodiles.push_back(new Crocodile(this, &CrocodileRight1, &CrocodileRight2, -100, 275, 1, 1));
+      Scene->addItem(crocodiles[crocodiles.size()-1]);
+    }
+    else{
+      logs.push_back(new Log(this, &LogI, -100, 275, 1, 1));
+      Scene->addItem(logs[logs.size()-1]);
+    }
+    l1 = 0;
+  }
+  random = std::rand() % 2000;
+  random -= 1000;
+  if(random < -970 && difficulty * l2 > 100){
+    if(random < -994){
+      crocodiles.push_back(new Crocodile(this, &CrocodileLeft1, &CrocodileLeft2, WINDOW_MAX_X*2, 325, -1, 1));
+      Scene->addItem(crocodiles[crocodiles.size()-1]);
+    }
+    else {
+      logs.push_back(new Log(this, &LogI, WINDOW_MAX_X*2, 325, -1, 1));
+      Scene->addItem(logs[logs.size()-1]);
+    }
+    l2 = 0;
+  }
+  for(std::vector<Log *>::iterator it = logs.begin(); it != logs.end(); ++it){
     (*it)->move(timeLeft);
     (*it)->animate(timeLeft);
+    (*it)->collide(player);
     if((*it)->getX() >= WINDOW_MAX_X*2 || (*it)->getX() + (*it)->getWidth() < 0){
       delete (*it);
-      pieces.erase(it);
+      logs.erase(it);
+      --it;
     }
   }
+  for(std::vector<Crocodile *>::iterator it = crocodiles.begin(); it != crocodiles.end(); ++it){
+    (*it)->move(timeLeft);
+    (*it)->animate(timeLeft);
+    (*it)->collide(player);
+    if((*it)->getX() >= WINDOW_MAX_X*2 || (*it)->getX() + (*it)->getWidth() < 0){
+      delete (*it);
+      crocodiles.erase(it);
+      --it;
+    }
+  }
+  for(std::vector<Car *>::iterator it = cars.begin(); it != cars.end(); ++it){
+    (*it)->move(timeLeft);
+    (*it)->animate(timeLeft);
+    (*it)->collide(player);
+    if((*it)->getX() >= WINDOW_MAX_X*2 || (*it)->getX() + (*it)->getWidth() < 0){
+      delete (*it);
+      cars.erase(it);
+    }
+  }
+  for(std::vector<Guardian *>::iterator it = guardians.begin(); it != guardians.end(); ++it){
+    (*it)->move(timeLeft);
+    (*it)->animate(timeLeft);
+    (*it)->collide(player);
+    if((*it)->getX() >= WINDOW_MAX_X*2 || (*it)->getX() + (*it)->getWidth() < 0){
+      delete (*it);
+      guardians.erase(it);
+      --it;
+    }
+  }
+  for(std::vector<Arrow *>::iterator it = arrows.begin(); it != arrows.end(); ++it){
+    (*it)->move(timeLeft);
+    (*it)->animate(timeLeft);
+    (*it)->collide(player);
+    if((*it)->getX() >= WINDOW_MAX_X*2 || (*it)->getX() + (*it)->getWidth() < 0){
+      delete (*it);
+      arrows.erase(it);
+      --it;
+    }
+  }
+  for(std::vector<Temple *>::iterator it = temples.begin(); it != temples.end(); ++it){
+    (*it)->animate(timeLeft);
+    (*it)->collide(player);
+  }
   player->animate(timeLeft);
+  if(timeLeft%100 == 0){
+    std::stringstream t;
+    t << "Time: \n" << (timeLeft/100);
+    QString qs = (t.str()).c_str();
+    ShowTime->setText(qs);
+  }
   timeLeft--;
   if(timeLeft == 0){
-    timeLeft = 10000;
-    GlobalTimer->stop();
+    timeLeft = 12000;
+    //GlobalTimer->stop();
   }
 }
 
-void MainWindow::keyPressEvent( QKeyEvent *e ){
-std::cout<<hasFocus()<<std::endl;
-if(!paused && (player != NULL)){
-  switch( e->key() ){
-    case Qt::Key_Left:
-      player->move(3);
-    case Qt::Key_Right:
-      player->move(1);
-    case Qt::Key_Up:
-      player->move(0);
-    case Qt::Key_Down:
-      player->move(2);
-  }
-  //QWidget::keyPressEvent(e);
+/*void QMainWindow::keyPressEvent( QKeyEvent *e ){
+  this->keyPressEvent(e);
+}*/
+
+/*void QGraphicsScene::keyPressEvent(QKeyEvent *e){
+  this->MainWindow::keyPressEvent(e);
 }
+
+void QGraphicsView::keyPressEvent(QKeyEvent *e){
+  this->MainWindow::keyPressEvent(e);
+}*/
+/*
+void MainWindow::keyPressEvent( QKeyEvent *e ){
+  std::cout<<hasFocus()<<std::endl;
+  if(!paused && (player != NULL)){
+    switch( e->key() ){
+      case Qt::Key_Left:
+        player->move(3);
+      case Qt::Key_Right:
+        player->move(1);
+      case Qt::Key_Up:
+        player->move(0);
+      case Qt::Key_Down:
+        player->move(2);
+    }
+  }
+}*/
+
+void MainWindow::keyEvent( QKeyEvent *e ){
+  //std::cout<<hasFocus()<<std::endl;
+  if(!paused && (player != NULL)){
+    switch( e->key() ){
+      case Qt::Key_A:
+        player->move(3);
+      case Qt::Key_D:
+        player->move(1);
+      case Qt::Key_W:
+        player->move(2);
+      case Qt::Key_S:
+        player->move(0);
+    }
+  }
+}
+
+void MainWindow::addArrow(int x, int y) {
+  arrows.push_back(new Arrow(this, &ArrowI, x, y, difficulty));
+  Scene->addItem(arrows[arrows.size()-1]);
+  arrows[arrows.size()-1]->setZValue(9999);
 }

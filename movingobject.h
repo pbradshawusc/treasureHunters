@@ -4,9 +4,11 @@
 #include "treasurehunter.h"
 #include <QGraphicsPixmapItem>
 
+class MainWindow;
+
 class movingObject : public QGraphicsPixmapItem {
   public:
-    movingObject(QPixmap *pm, int nx, int ny);
+    movingObject(MainWindow *m, QPixmap *pm, int nx, int ny);
     virtual void move(int timer) = 0;
     virtual bool collide(TreasureHunter *th) = 0;
     virtual void animate(int timer) = 0;
@@ -25,6 +27,7 @@ class movingObject : public QGraphicsPixmapItem {
     int vX;
     int vY;
     QPixmap *pixMap;
+    MainWindow *mw;
 };
 
 #endif

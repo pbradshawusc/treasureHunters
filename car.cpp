@@ -1,6 +1,6 @@
 #include "car.h"
 
-Car::Car(QPixmap *pm, QPixmap *pm2, int nx, int ny, int d, int dif) : movingObject(pm, nx, ny) {
+Car::Car(MainWindow* m, QPixmap *pm, QPixmap *pm2, int nx, int ny, int d, int dif) : movingObject(m, pm, nx, ny) {
   c2 = pm2;
   animation = 0;
   vX = d;
@@ -22,7 +22,7 @@ bool Car::collide(TreasureHunter *th){
 }
 
 void Car::animate(int timer){
-  if(timer % 1/difficulty == 0){
+  if(timer % 50/difficulty == 0){
     if(animation == 0){
       setPixmap(*c2);
     }

@@ -5,7 +5,7 @@
 
 class Crocodile : public movingObject {
   public:
-    Crocodile(QPixmap *pm, QPixmap *c, int nx, int ny, int d, int dif);
+    Crocodile(MainWindow* m, QPixmap *pm, QPixmap *c, int nx, int ny, int d, int dif);
     void move(int timer);
     bool collide(TreasureHunter *th);
     void animate(int timer);

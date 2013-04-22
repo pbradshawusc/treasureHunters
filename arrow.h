@@ -1,16 +1,15 @@
-#ifndef LOG_H
-#define LOG_H
+#ifndef ARROW_H
+#define ARROW_H
 
 #include "movingobject.h"
 
-class Log : public movingObject {
+class Arrow : public movingObject {
   public:
-    Log(MainWindow* m, QPixmap *pm, int nx, int ny, int d, int dif);
+    Arrow(MainWindow* m, QPixmap *pm, int nx, int ny, int dif);
     void move(int timer);
     bool collide(TreasureHunter *th);
     void animate(int timer);
   private:
-    int direction;
     int difficulty;
 };
 

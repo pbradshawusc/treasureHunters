@@ -1,7 +1,7 @@
 #include "river.h"
 #include <cmath>
 
-River::River(QPixmap *pm, QPixmap *pm2, QPixmap *pm3, int nx, int ny) : movingObject(pm, nx, ny){
+River::River(MainWindow* m, QPixmap *pm, QPixmap *pm2, QPixmap *pm3, int nx, int ny) : movingObject(m, pm, nx, ny){
   width = 698;
   height = 200;
   r2 = pm2;

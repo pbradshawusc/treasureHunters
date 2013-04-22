@@ -5,7 +5,7 @@
 
 class Car : public movingObject {
   public:
-    Car(QPixmap *pm, QPixmap *pm2, int nx, int ny, int d, int dif);
+    Car(MainWindow* m, QPixmap *pm, QPixmap *pm2, int nx, int ny, int d, int dif);
     void move(int timer);
     bool collide(TreasureHunter *th);
     void animate(int timer);

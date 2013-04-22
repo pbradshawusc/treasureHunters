@@ -1,6 +1,6 @@
 #include "log.h"
 
-Log::Log(QPixmap *pm, int nx, int ny, int d, int dif) : movingObject(pm, nx, ny) {
+Log::Log(MainWindow* m, QPixmap *pm, int nx, int ny, int d, int dif) : movingObject(m, pm, nx, ny) {
   vX = d;
   vY = 0;
   width = 100;
