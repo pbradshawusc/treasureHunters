@@ -32,7 +32,7 @@ bool Guardian::collide(TreasureHunter *th){
 }
 
 void Guardian::animate(int timer){
-  if(timer%20 == 0){
+  if(timer%20 == 0 && timer<12001){
     int random = rand() % 5;
     if(random > 3){
       if(animation == 0){

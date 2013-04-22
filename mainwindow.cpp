@@ -39,6 +39,10 @@ MainWindow::MainWindow() : QMainWindow()  {
     View->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     View->setWindowTitle( "Treasure Hunters!");
     
+    Name = new QTextEdit( View );
+    Name->setGeometry(275,435,150,30);
+    Name->setText("Name");
+    
     Intro = new QTextEdit( View );
     Intro->setGeometry(175,100,350,250);
     Intro->setReadOnly(true);
@@ -56,9 +60,11 @@ MainWindow::MainWindow() : QMainWindow()  {
     QPalette p = Intro->palette();
     p.setColor(QPalette::Base, QColor( 234, 206, 106 ));
     Intro->setPalette(p);
+    Name->setPalette(p);
     
     GlobalTimer = new QTimer();
-    GlobalTimer->setInterval(7);
+    interval = 7;
+    GlobalTimer->setInterval(interval);
     connect(GlobalTimer,SIGNAL(timeout()),this,SLOT(move()));
     
     //Now let's create all of the pixmaps we'll need for the game
@@ -147,7 +153,7 @@ MainWindow::MainWindow() : QMainWindow()  {
     paused = true;
 
     this->setFocus();
-    std::cout<<hasFocus()<<std::endl;
+    //std::cout<<hasFocus()<<std::endl;
     //setFocusPolicy(Qt::StrongFocus);
     
     srand(time(NULL));
@@ -165,12 +171,13 @@ void MainWindow::show() {
 }
 
 void MainWindow::startGame() {
-  player = new TreasureHunter(&TreasureHunterStill, &TreasureHunterLeft1, &TreasureHunterLeft2, &TreasureHunterRight1, &TreasureHunterRight2, 335, 580, 1);
+  player = new TreasureHunter(&TreasureHunterStill, &TreasureHunterLeft1, &TreasureHunterLeft2, &TreasureHunterRight1, &TreasureHunterRight2, 335, 530, 1);
   Scene->addItem(player);
   player->setZValue(100000);
   
   Intro->setVisible(false);
   Start->setVisible(false);
+  Name->setVisible(false);
     
   paused = false;
   //Add River
@@ -194,7 +201,7 @@ void MainWindow::startGame() {
   for(unsigned int i = 0; i < guardians.size(); i++){
     Scene->addItem(guardians[i]);
   }
-  timeLeft = 12000;
+  timeLeft = 12500;
   score = 0;
   numLives = 3;
   GlobalTimer->start();
@@ -203,8 +210,7 @@ void MainWindow::startGame() {
   cl = 0;
   l1 = 0;
   l2 = 0;
-  /*this->setFocus();
-  std::cout<<hasFocus()<<std::endl;*/
+  //std::cout<<hasFocus()<<std::endl;
   
   ShowScore = new QTextEdit(View);
   ShowLives = new QTextEdit(View);
@@ -213,11 +219,12 @@ void MainWindow::startGame() {
   ShowLives->setReadOnly(true);
   ShowTime->setReadOnly(true);
   QPalette p = Intro->palette();
-  ShowScore->setGeometry(15,580,100,50);
+  ShowScore->setGeometry(15,580,200,50);
   ShowLives->setGeometry(300,12,70,30);
   ShowTime->setGeometry(588,580,100,50);
   std::stringstream s;
-  s << "Score: \n" << score;
+  QString n = Name->toPlainText();
+  s << n.toLocal8Bit().constData() << "'s Score: \n" << score;
   QString qs = (s.str()).c_str();
   ShowScore->setText(qs);
   std::stringstream l;
@@ -232,30 +239,57 @@ void MainWindow::startGame() {
   ShowScore->setVisible(true);
   ShowLives->setVisible(true);
   ShowTime->setVisible(true);
+  
+  numTempHit = 0;
+  
+  Restart = new QPushButton(View);
+  Restart->setText("Restart");
+  Restart->setGeometry(290, 580, 80, 30);
+  Restart->setVisible(false);
+  connect(Restart, SIGNAL(clicked()), this, SLOT(restart()));
+  
+  View->setFocus();
 }
 
 void MainWindow::move(){
+  std::stringstream s;
+  QString n = Name->toPlainText();
+  s << n.toLocal8Bit().constData() << "'s Score: \n" << score;
+  QString qs = (s.str()).c_str();
+  ShowScore->setText(qs);
+  std::stringstream l;
+  l << "Lives: " << numLives;
+  qs = (l.str()).c_str();
+  ShowLives->setText(qs);
+  if(numLives == 0){
+    ShowLives->setText("Game Over!");
+    ShowLives->setGeometry(295,300,110,30);
+    GlobalTimer->stop();
+    paused = true;
+    Restart->setVisible(true);
+    return;
+  }
   int random = std::rand() % 2000;
   random -= 1000;
   cr++;
   cl++;
   l1++;
   l2++;
-  if(random < -980 && difficulty * cr > 80){
+  if(random < -980 && cr > 80){
     cars.push_back(new Car(this, &CarRight1, &CarRight2, -80, 426, 1, 1));
     Scene->addItem(cars[cars.size()-1]);
     cr = 0;
   }
   random = std::rand() % 2000;
   random -= 1000;
-  if(random > 980 && difficulty * cl > 80){
+  if(random > 980 && cl > 80){
     cars.push_back(new Car(this, &CarLeft1, &CarLeft2, WINDOW_MAX_X*2, 476, -1, 1));
     Scene->addItem(cars[cars.size()-1]);
     cl = 0;
   }
   random = std::rand() % 2000;
   random -= 1000;
-  if(random > 970 && difficulty * l1 > 100){
+  if(random > 970 && l1 > 100){
     if(random > 994){
       crocodiles.push_back(new Crocodile(this, &CrocodileRight1, &CrocodileRight2, -100, 175, 1, 1));
       Scene->addItem(crocodiles[crocodiles.size()-1]);
@@ -268,7 +302,7 @@ void MainWindow::move(){
   }
   random = std::rand() % 2000;
   random -= 1000;
-  if(random < -970 && difficulty * l2 > 100){
+  if(random < -970 && l2 > 100){
     if(random < -994){
       crocodiles.push_back(new Crocodile(this, &CrocodileLeft1, &CrocodileLeft2, WINDOW_MAX_X*2, 225, -1, 1));
       Scene->addItem(crocodiles[crocodiles.size()-1]);
@@ -281,7 +315,7 @@ void MainWindow::move(){
   }
   random = std::rand() % 2000;
   random -= 1000;
-  if(random > 970 && difficulty * l1 > 100){
+  if(random > 970 && l1 > 100){
     if(random > 994){
       crocodiles.push_back(new Crocodile(this, &CrocodileRight1, &CrocodileRight2, -100, 275, 1, 1));
       Scene->addItem(crocodiles[crocodiles.size()-1]);
@@ -294,7 +328,7 @@ void MainWindow::move(){
   }
   random = std::rand() % 2000;
   random -= 1000;
-  if(random < -970 && difficulty * l2 > 100){
+  if(random < -970 && l2 > 100){
     if(random < -994){
       crocodiles.push_back(new Crocodile(this, &CrocodileLeft1, &CrocodileLeft2, WINDOW_MAX_X*2, 325, -1, 1));
       Scene->addItem(crocodiles[crocodiles.size()-1]);
@@ -305,20 +339,36 @@ void MainWindow::move(){
     }
     l2 = 0;
   }
+  onLog = false;
   for(std::vector<Log *>::iterator it = logs.begin(); it != logs.end(); ++it){
     (*it)->move(timeLeft);
     (*it)->animate(timeLeft);
-    (*it)->collide(player);
+    if((*it)->collide(player)){
+      player->logMove((*it)->getVX());
+      onLog = true;
+    }
     if((*it)->getX() >= WINDOW_MAX_X*2 || (*it)->getX() + (*it)->getWidth() < 0){
       delete (*it);
       logs.erase(it);
       --it;
     }
   }
+  if(!onLog && rivers[0]->collide(player)){
+    loseLife();
+  }
+  random = std::rand() % 20000;
+  if(random>19990){
+    int x = rand()%(WINDOW_MAX_X*2);
+    int y = rand()%(WINDOW_MAX_Y*2);
+    grails.push_back(new HolyGrail(this, &HolyGrailI, x, y, rand()));
+    Scene->addItem(grails[grails.size()-1]);
+  }
   for(std::vector<Crocodile *>::iterator it = crocodiles.begin(); it != crocodiles.end(); ++it){
     (*it)->move(timeLeft);
     (*it)->animate(timeLeft);
-    (*it)->collide(player);
+    if((*it)->collide(player)){
+      loseLife();
+    }
     if((*it)->getX() >= WINDOW_MAX_X*2 || (*it)->getX() + (*it)->getWidth() < 0){
       delete (*it);
       crocodiles.erase(it);
@@ -328,7 +378,9 @@ void MainWindow::move(){
   for(std::vector<Car *>::iterator it = cars.begin(); it != cars.end(); ++it){
     (*it)->move(timeLeft);
     (*it)->animate(timeLeft);
-    (*it)->collide(player);
+    if((*it)->collide(player)){
+      loseLife();
+    }
     if((*it)->getX() >= WINDOW_MAX_X*2 || (*it)->getX() + (*it)->getWidth() < 0){
       delete (*it);
       cars.erase(it);
@@ -337,7 +389,7 @@ void MainWindow::move(){
   for(std::vector<Guardian *>::iterator it = guardians.begin(); it != guardians.end(); ++it){
     (*it)->move(timeLeft);
     (*it)->animate(timeLeft);
-    (*it)->collide(player);
+    //(*it)->collide(player);
     if((*it)->getX() >= WINDOW_MAX_X*2 || (*it)->getX() + (*it)->getWidth() < 0){
       delete (*it);
       guardians.erase(it);
@@ -347,7 +399,10 @@ void MainWindow::move(){
   for(std::vector<Arrow *>::iterator it = arrows.begin(); it != arrows.end(); ++it){
     (*it)->move(timeLeft);
     (*it)->animate(timeLeft);
-    (*it)->collide(player);
+    if((*it)->collide(player)){
+      loseLife();
+      break;
+    }
     if((*it)->getX() >= WINDOW_MAX_X*2 || (*it)->getX() + (*it)->getWidth() < 0){
       delete (*it);
       arrows.erase(it);
@@ -356,7 +411,47 @@ void MainWindow::move(){
   }
   for(std::vector<Temple *>::iterator it = temples.begin(); it != temples.end(); ++it){
     (*it)->animate(timeLeft);
-    (*it)->collide(player);
+    if(!((*it)->hit())){
+      if((*it)->collide(player)){
+        numTempHit++;
+        player->setLoc(335, 530);
+        score+=timeLeft*difficulty;
+        timeLeft = 12500;
+        for(std::vector<Arrow *>::iterator it = arrows.begin(); it != arrows.end(); ++it){
+          delete (*it);
+          arrows.erase(it);
+          --it;
+        }
+      }
+    }
+  }
+  for(std::vector<HolyGrail *>::iterator it = grails.begin(); it != grails.end(); ++it){
+    (*it)->move(timeLeft);
+    if((*it)->collide(player)){
+      numLives++;
+      delete(*it);
+      grails.erase(it);
+      --it;
+    }
+    else if((*it)->getX() >= WINDOW_MAX_X*2 || (*it)->getX() + (*it)->getWidth() < 0){
+      delete (*it);
+      grails.erase(it);
+      --it;
+    }
+    else if((*it)->getY() >= WINDOW_MAX_Y*2 || (*it)->getY() + (*it)->getHeight() < 0){
+      delete (*it);
+      grails.erase(it);
+      --it;
+    }
+  }
+  if(numTempHit == 3){
+    interval--;
+    GlobalTimer->setInterval(interval);
+    for(std::vector<Temple *>::iterator it = temples.begin(); it != temples.end(); ++it){
+      (*it)->setEmpty();
+    }
+    numTempHit = 0;
+    difficulty++;
   }
   player->animate(timeLeft);
   if(timeLeft%100 == 0){
@@ -402,7 +497,7 @@ void MainWindow::keyPressEvent( QKeyEvent *e ){
 
 void MainWindow::keyEvent( QKeyEvent *e ){
   //std::cout<<hasFocus()<<std::endl;
-  if(!paused && (player != NULL)){
+  if(!paused && (player != NULL) && timeLeft < 12001){
     switch( e->key() ){
       case Qt::Key_A:
         player->move(3);
@@ -420,4 +515,36 @@ void MainWindow::addArrow(int x, int y) {
   arrows.push_back(new Arrow(this, &ArrowI, x, y, difficulty));
   Scene->addItem(arrows[arrows.size()-1]);
   arrows[arrows.size()-1]->setZValue(9999);
+}
+
+void MainWindow::loseLife(){
+  numLives--;
+  player->setLoc(335, 530);
+  timeLeft = 12500;
+  for(std::vector<Arrow *>::iterator it = arrows.begin(); it != arrows.end(); ++it){
+    delete (*it);
+    arrows.erase(it);
+    --it;
+  }
+}
+
+void MainWindow::restart(){
+  Restart->setVisible(false);
+  numLives = 3;
+  score = 0;
+  timeLeft = 12500;
+  paused = false;
+  ShowLives->setGeometry(300,12,70,30);
+  std::stringstream l;
+  l << "Lives: " << numLives;
+  QString qs = (l.str()).c_str();
+  ShowLives->setText(qs);
+  GlobalTimer->start();
+  difficulty = 1;
+  interval = 7;
+  GlobalTimer->setInterval(interval);
+  numTempHit = 0;
+  for(std::vector<Temple *>::iterator it = temples.begin(); it != temples.end(); ++it){
+    (*it)->setEmpty();
+  }
 }

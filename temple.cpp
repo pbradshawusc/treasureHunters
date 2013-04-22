@@ -28,3 +28,12 @@ void Temple::animate(int timer){
     setPixmap(*f);
   }
 }
+
+bool Temple::hit() {
+  return full;
+}
+
+void Temple::setEmpty(){
+  setPixmap(*pixMap);
+  full = false;
+}

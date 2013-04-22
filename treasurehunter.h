@@ -8,10 +8,12 @@ class TreasureHunter : public QGraphicsPixmapItem{
     TreasureHunter(QPixmap* s, QPixmap* l1, QPixmap* l2, QPixmap* r1, QPixmap* r2, int nx, int ny, int dif);
     void animate(int timer);
     void move(int direction);
+    void logMove(int v);
     int getX();
     int getY();
     int getWidth();
     int getHeight();
+    void setLoc(int nx, int ny);
   private:
     int x;
     int y;

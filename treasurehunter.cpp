@@ -103,3 +103,20 @@ int TreasureHunter::getWidth(){
 int TreasureHunter::getHeight(){
   return height;
 }
+
+void TreasureHunter::logMove(int v){
+  x+= v;
+  if(x<0){
+    x = 0;
+  }
+  else if(x+width > 700){
+    x = 700-width;
+  }
+  setPos(x,y);
+}
+
+void TreasureHunter::setLoc(int nx, int ny){
+  setPos(nx,ny);
+  x = nx;
+  y = ny;
+}

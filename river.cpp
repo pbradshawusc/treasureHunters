@@ -16,12 +16,7 @@ void River::move(int timer){
 }
 
 bool River::collide(TreasureHunter *th){
-  if(abs(th->getX()-x) >= (th->getWidth()/3)){
-    if(abs(th->getY()-y) >= (th->getHeight()/3)){
-      return true;
-    }
-  }
-  return false;
+  return collidesWithItem(th);
 }
 
 void River::animate(int timer){

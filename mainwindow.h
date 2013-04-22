@@ -54,6 +54,7 @@ private:
     QPushButton *Start;
     /** A push button that when clicked will delete the pause info text box, restart the timer, and then delete itself. */
     QPushButton *Resume;
+    QPushButton *Restart;
     /** A (read only) Text Box that will show the user a welcome screen and info about controls and such. */
     QTextEdit *Intro;
     /** A (read only) Text Box that will show the user info about controls and such while the game is paused. */
@@ -61,6 +62,7 @@ private:
     QTextEdit *ShowScore;
     QTextEdit *ShowLives;
     QTextEdit *ShowTime;
+    QTextEdit *Name;
     /** A background for the entire game. */
     QGraphicsPixmapItem *Background;
     /** A counter to keep track of the time that has passed (used in movement and score calculation) */
@@ -115,16 +117,21 @@ private:
     int cl;
     int l1;
     int l2;
+    bool onLog;
+    int numTempHit;
+    int interval;
     
 protected:
     /** This will catch the events of pressing down a key. */
     //void keyPressEvent( QKeyEvent *e );
+    void loseLife();
 
 public slots:
    /** A slot to start the game. Triggered when the start button is clicked. */
    void startGame();
    /** A slot to move the position of all movableObjects on the screen */
    void move();
+   void restart();
 
 };
 

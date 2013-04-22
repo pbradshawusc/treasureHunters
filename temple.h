@@ -9,6 +9,8 @@ class Temple : public movingObject {
     void move(int timer);
     bool collide(TreasureHunter *th);
     void animate(int timer);
+    bool hit();
+    void setEmpty();
   private:
     bool full;
     QPixmap *f;

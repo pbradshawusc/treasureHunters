@@ -9,6 +9,7 @@ class Log : public movingObject {
     void move(int timer);
     bool collide(TreasureHunter *th);
     void animate(int timer);
+    int getVX();
   private:
     int direction;
     int difficulty;

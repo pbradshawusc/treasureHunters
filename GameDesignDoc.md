@@ -4,7 +4,7 @@
 _(All moving objects aside from Arrows will have 2 or 3 step animations along with movement)_
 
   1. Treasure Hunter (player)
-    - Movement: Horizontal and vertical on arrow key presses 
+    - Movement: Horizontal and vertical on arrow key presses. Jumps just like in the original Frogger game
     - Generation: Bottom of the screen in the same place every time the user loses a life or enters a temple
     - Sprites:
     - ![Treasure Hunter Still](./Images/Treasure Hunter Still.gif)
@@ -51,7 +51,7 @@ _(All moving objects aside from Arrows will have 2 or 3 step animations along wi
     - Generation: On random intervals within a set time frame always at the location of the shooting Guardian
     - Sprite:
     - ![Arrow](./Images/Arrow.gif)
-    - Credit: http://spritedatabase.net/file/9197
+    - Credit: http://spritedatabase.net/files/gba/1027/Sprite/JLHGreenArrow.png
   1. Temples 
     - Movement: None
     - Generation: Always at the same places on the top of the screen
@@ -75,7 +75,7 @@ _(All moving objects aside from Arrows will have 2 or 3 step animations along wi
 
 _Some parts of this section will be repeated in the more segmented outline below_
 
-  - Player moves the treasure hunter with the arrow keys: up, down, left, and right
+  - Player moves the treasure hunter with WASD: W (up), S (down), A (left), and D (right)
   - Trying to get treasure hunter into temple. 
     - Once a treasure hunter has entered a temple, a new treasure hunter cannot enter the same temple.
     - Total of 5 temples, once 3 have been entered, all are cleared.
@@ -89,29 +89,33 @@ _Some parts of this section will be repeated in the more segmented outline below
   - Game will have a timer, if the player does not make it to the temple within a certain time, a boulder will roll across the screen and kill the treasure hunter, causing the player to lose a life.
     - Timer will be the same for all levels.
   - When the player gets to a temple, he/she will earn points equal to the amount of time left times a difficulty factor.
-    - Difficulty factor will start at 1.25 and be squared for every difficulty level. (1.25, 1.5625, 2.44140625, 5.96046448, 35.5271368, etc.)
+    - Difficulty factor will start at 1 and increase by one for difficulty level.
     - Difficulty factor will increase with each level.
   - Each level will be getting the treasure hunter into an unoccupied temple 3 times. During all three times the speed of all objects will be the same.
     - When a level is completed, the user moves on to the next level, where everything moves faster.
     - This continues indefinitely until the user loses.
-    - The user’s movement speed will also increase, but the limiting factor is the user’s reaction time. Thus after a certain point it will be impossible to beat the level.
+    - The user’s movement speed is entirely dependent upon the user’s reaction time. Thus after a certain point it will be impossible to beat the level.
 
 ##Object Detection:
 
-  - For the player to be securely on a log, road, or temple, at least half of the player’s sprite must be on the log, road, or temple (as opposed to being on the river).
+  - For the player to be securely on a log or temple, the player's sprite must be touching the log or temple's sprite
+    - This is feasible because the player jumps around in line with the rows. If the player is touching the log, he is safely off of the water.
+  - For the player tp be safely on the road, the player's sprite must not be touching the river or cars whatsoever.
+  - The player is never safe from arrows.
   - For the player to be hit by a Holy Grail, car, or Arrow, any overlap of the player’s sprite with the respective Holy Grail, car, or Arrow’s sprite will result in a collision.
   - For crocodiles, the player’s sprite must have at least 1/3 of overlap for a collision to be detected.
 
 ##Controls
 
-  - The player will control the treasure hunter by pressing down the arrow keys (up for up, down for down, etc.). 
-  - While a key is pressed down, the user will move in that direction. 
+  - The player will control the treasure hunter by pressing down WASD (W for up, S for down, A for left, D for right). 
+  - When a key is pressed down, the user will jump in that direction. 
+    - Holding down a key will cause the player to jump several times in that direction after a delay. This is ok because that will inevitably end in the user losing a life.
   - All movement animation will be the same, regardles of direction of motion.
   
 ##Score
 
   - When the player gets to a temple, he/she will earn points equal to the amount of time left times a difficulty factor.
-    - Difficulty factor will start at 1.25 and be squared for every difficulty level. (1.25, 1.5625, 2.44140625, 5.96046448, 35.5271368, etc.)
+    - Difficulty factor will start at 1 and increase by one for every difficulty level.
     - Difficulty factor will increase with each level.
   - Score cannot decrease.
     
@@ -130,9 +134,11 @@ _Some parts of this section will be repeated in the more segmented outline below
   - Credits (Desert): http://spritedatabase.net/files/gameboy/732/Background/SK_ScorchingDesert.png 
   
   - In this screen, the basic background of the window is the desert gif file while there is a text box with directions in front.
+  - There will be a text box where the user will enter his/her desired username
   - The only interactive button on this screen is the "Begin!" button, which will start the game by deleting the welcome text box and populating the screen with the player, temples, river, and guardians.
     - It will also start the timer (Potential countdown to prepare the user) to generate logs, crocodiles, and holy grails.
     - Game will start on button click and user will be allowed to move (after countdown if implemented).
+    - This will also take in the name from the text box to be used in the score section of the game screen
   
 ###Game Screen
 ![Game Screen](./Images/Gameplay Screen.gif)
@@ -144,7 +150,7 @@ _Some parts of this section will be repeated in the more segmented outline below
     - Potential to add a countdown timer to reset the level and disable movement until the timer hits 0.
   - As cars, logs, and alligators pass through the edges of the screen, they will delete themselves to free up memory.
     - New cars, logs, and alligators will randomly spawn at designated points and slide into view.
-  - Text boxes with labels and appropiate values will show the time, score, and remaining lives at the top of the screen.
+  - Text boxes with labels and appropiate values will show the time, score at the bottom of the screen and remaining lives at the top of the screen.
   - Pressing "P" will pause the game and send the game to the pause screen.
 
 ###Pause Screen

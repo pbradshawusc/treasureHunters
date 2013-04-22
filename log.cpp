@@ -16,10 +16,13 @@ void Log::move(int timer){
 }
 
 bool Log::collide(TreasureHunter *th){
-  //return collidesWithItem(th);
-  return true;
+  return collidesWithItem(th);
 }
 
 void Log::animate(int timer){
   timer++;
+}
+
+int Log::getVX(){
+  return vX;
 }

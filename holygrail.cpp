@@ -33,9 +33,6 @@ void HolyGrail::move(int timer){
 }
 
 bool HolyGrail::collide(TreasureHunter *th){
-  if(collidesWithItem(th)){
-  
-  }
   return collidesWithItem(th);
 }
 
