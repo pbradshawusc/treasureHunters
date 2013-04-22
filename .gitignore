@@ -16,6 +16,7 @@
 *~
 game_pbradsha
 Makefile
+reclonedGame
 
 #Qt Reproducable Files
 *.pro

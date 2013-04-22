@@ -30,6 +30,7 @@ void HolyGrail::move(int timer){
   y+=vY;
   x+=vX;
   setPos(x,y);
+  timer++;
 }
 
 bool HolyGrail::collide(TreasureHunter *th){

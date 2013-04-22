@@ -105,5 +105,7 @@ void QScene::move(){
   if(event2 != NULL){
     mw->keyEvent(event2);
   }*/
-  pressed = false;
+  if(e->key() == Qt::Key_W || e->key() == Qt::Key_S || e->key() == Qt::Key_A || e->key() == Qt::Key_D){
+    pressed = false;
+  }
 }

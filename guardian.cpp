@@ -28,7 +28,7 @@ void Guardian::move(int timer){
 }
 
 bool Guardian::collide(TreasureHunter *th){
-  return false;
+  return collidesWithItem(th);
 }
 
 void Guardian::animate(int timer){
