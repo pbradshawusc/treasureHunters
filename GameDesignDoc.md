@@ -130,7 +130,7 @@ _Some parts of this section will be repeated in the more segmented outline below
 ##Game Layout
 
 ###Title Screen
-![Title Screen](./Images/Title Screen.gif)
+![Title Screen](./Images/Title Screen.png)
   - Credits (Desert): http://spritedatabase.net/files/gameboy/732/Background/SK_ScorchingDesert.png 
   
   - In this screen, the basic background of the window is the desert gif file while there is a text box with directions in front.
@@ -141,7 +141,7 @@ _Some parts of this section will be repeated in the more segmented outline below
     - This will also take in the name from the text box to be used in the score section of the game screen
   
 ###Game Screen
-![Game Screen](./Images/Gameplay Screen.gif)
+![Game Screen](./Images/Gameplay Screen.png)
 
   - In this screen, the game timer will run and all functionality will be used. Arrow keys will move the user's character and cars, logs, gators, holy grails, guardians, and arrows will all move based on the timer.
   - Each level will have a faster timer and thus faster moving objects until it becomes impossible.
@@ -154,9 +154,14 @@ _Some parts of this section will be repeated in the more segmented outline below
   - Pressing "P" will pause the game and send the game to the pause screen.
 
 ###Pause Screen
-![Pause Screen](./Images/Pause Screen.gif)
+![Pause Screen](./Images/Pause Screen.png)
 
   - This screen will just stop the timer and add a text box with controls and a notification that the game is paused.
   - To resume the game, simply toggle pause with "P"
     - This will start the timer going again.
+    
+###Ending Screen
+![Ending Screen](./Images/Game Over Screen.png)
+
+  - This screen is simply an overlay of the game screen. It provides a message that the game is over and a button to restart the game with the same username.
 
