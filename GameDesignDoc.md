@@ -37,8 +37,8 @@ _(All moving objects aside from Arrows will have 2 or 3 step animations along wi
     - ![Holy Grail](./Images/Holy Grail.gif)
     - Credit:  http://officialpetsociety.files.wordpress.com/2011/09/medieval-goblet.png 
   1. Guardians
-    - Movement: Horizontal back and forth in their set boundaries (1-3 Guardians, covers whole horizontal boundary)
-    - Generation: Random within their set boundaries at the beginning of a level/life
+    - Movement: Horizontal back and forth in their set boundaries (3 Guardians, cover whole horizontal boundary together, each gets 1/3 the area)
+    - Generation: Inside their set boundaries at the beginning of a level/life
     - Note: Shoot Arrows vertically down the screen at random intervals within a set time range
     - Sprite:
     - ![Guardian 1](./Images/Guardian 1.gif)
@@ -100,11 +100,10 @@ _Some parts of this section will be repeated in the more segmented outline below
 
   - For the player to be securely on a log or temple, the player's sprite must be touching the log or temple's sprite
     - This is feasible because the player jumps around in line with the rows. If the player is touching the log, he is safely off of the water.
-  - For the player tp be safely on the road, the player's sprite must not be touching the river or cars whatsoever.
+  - For the player to be safely on the road, the player's sprite must not be touching the river or cars whatsoever.
   - The player is never safe from arrows.
-  - For the player to be hit by a Holy Grail, car, or Arrow, any overlap of the player’s sprite with the respective Holy Grail, car, or Arrow’s sprite will result in a collision.
-  - For crocodiles, the player’s sprite must have at least 1/3 of overlap for a collision to be detected.
-
+  - For the player to be hit by a Holy Grail, car, crocodile, or Arrow, any overlap of the player’s sprite with the respective Holy Grail, car, or Arrow’s sprite will result in a collision.
+  
 ##Controls
 
   - The player will control the treasure hunter by pressing down WASD (W for up, S for down, A for left, D for right). 
@@ -125,7 +124,8 @@ _Some parts of this section will be repeated in the more segmented outline below
     - Holy Grails will appear randomly with a small chance throughout the game and if the user hits one then he/she will be given another life.
     - Lives will be lost when hit by a car, arrow, or crocodile or when the player falls into the river.
     - Also, a life will be lost if the user cannot make it to a temple within the alloted time.
-  - Lives will be a member variable of the window as a new treasure hunter object will be made for each time the treasure hunter spawns at the bottom of the screen.
+  - Lives will be a member variable of the window.
+  - Upon losing a life, the timer will reset and all arrows will be deleted.
 
 ##Game Layout
 
@@ -157,6 +157,6 @@ _Some parts of this section will be repeated in the more segmented outline below
 ![Pause Screen](./Images/Pause Screen.gif)
 
   - This screen will just stop the timer and add a text box with controls and a notification that the game is paused.
-  - The only button will be to resume the game (optional countdown timer to allow the user to prepare).
-    - This button will restart the timer and cause the game to continue.
+  - To resume the game, simply toggle pause with "P"
+    - This will start the timer going again.
 

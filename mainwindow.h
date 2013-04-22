@@ -43,6 +43,10 @@ public:
     void addArrow(int x, int y);
     /** This will process the events of pressing down a key that are caught by the QScene */
     void keyEvent( QKeyEvent *e );
+    /** This will make the user lose a life and reset the game properly */
+    void loseLife();
+    /** This toggles the timer and pause screen */
+    void togglePause();
     
 private:
     /** The scene that holds the view where all of the implementation takes place. Dynamically allocated. */
@@ -70,6 +74,8 @@ private:
     QTextEdit *Name;
     /** A background for the entire game. */
     QGraphicsPixmapItem *Background;
+    /** A QPushButton to close the game when clicked */
+    QPushButton *CloseGame;
     /** A counter to keep track of the time that has passed (used in movement and score calculation) */
     int timeLeft;
     /** A tracker for the number of lives the user has left. */
@@ -106,8 +112,8 @@ private:
     QPixmap WaterPart2;
     QPixmap WaterPart3;
     //Below are all of the objects needed for the game (or their containers)
+    /** A pointer to hold the player's sprite */
     TreasureHunter *player;
-    //std::vector<movingObject *> pieces;
     std::vector<Log *> logs;
     std::vector<Arrow *> arrows;
     std::vector<Temple *> temples;
@@ -117,27 +123,35 @@ private:
     std::vector<HolyGrail *> grails;
     std::vector<River *> rivers;
     //Ensure that objects don't overlap on the map.
+    /** keeps track of the difficulty level of the game */
     int difficulty;
+    /** ensures that cars aren't spawned overlapping each other (counter) row 1 */
     int cr;
+    /** ensures that cars aren't spawned overlapping each other (counter) row 2 */
     int cl;
+    /** ensures that logs aren't spawned overlapping each other (counter) row 1 */
     int l1;
+    /** ensures that logs aren't spawned overlapping each other (counter) row 2 */
     int l2;
+    /** ensures that logs aren't spawned overlapping each other (counter) row 3 */
+    int l3;
+    /** ensures that logs aren't spawned overlapping each other (counter) row 4 */
+    int l4;
+    /** a boolean to track whether the player is on a log or not (for movement and detection purposes) */
     bool onLog;
+    /** keeps track of the numbers of temples full */
     int numTempHit;
+    /** an interval for the timer, creates difficulty */
     int interval;
+    /** keeps track of whether the pause screen is currently on or off */
     bool pauseScreenOn;
-    
-protected:
-    /** This will catch the events of pressing down a key. */
-    //void keyPressEvent( QKeyEvent *e );
-    void loseLife();
-    void togglePause();
 
 public slots:
    /** A slot to start the game. Triggered when the start button is clicked. */
    void startGame();
-   /** A slot to move the position of all movableObjects on the screen */
+   /** A slot to move the position of all movableObjects on the screen and update game stats */
    void move();
+   /** A slot to restart the game when the try again button is available */
    void restart();
 
 };

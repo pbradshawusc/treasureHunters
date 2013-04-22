@@ -29,8 +29,12 @@ MainWindow::MainWindow() : QMainWindow()  {
     Start = new QPushButton( View );
     Start->setGeometry(300,365,100,40);
     Start->setText("&Let's Play!");
-    
     connect(Start, SIGNAL(clicked()), this, SLOT(startGame()));
+    
+    CloseGame = new QPushButton( View );
+    CloseGame->setGeometry(5,5,80,40);
+    CloseGame->setText("&Close");
+    connect(CloseGame, SIGNAL(clicked()), qApp, SLOT(quit()));
     
     //This sets the size of the window and gives it a title.
     View->setFixedSize( WINDOW_MAX_X*2, WINDOW_MAX_Y*2 );
@@ -161,8 +165,51 @@ MainWindow::MainWindow() : QMainWindow()  {
 
 MainWindow::~MainWindow(){
   //delete View;
-  delete Scene;
-  delete GlobalTimer;
+  //delete Scene;
+  //delete GlobalTimer;
+  for(std::vector<Log *>::iterator it = logs.begin(); it != logs.end(); ++it){
+    delete (*it);
+    logs.erase(it);
+    it--;
+  }
+  for(std::vector<Car *>::iterator it = cars.begin(); it != cars.end(); ++it){
+    delete (*it);
+    cars.erase(it);
+    it--;
+  }
+  for(std::vector<Crocodile *>::iterator it = crocodiles.begin(); it != crocodiles.end(); ++it){
+    delete (*it);
+    crocodiles.erase(it);
+    it--;
+  }
+  for(std::vector<Arrow *>::iterator it = arrows.begin(); it != arrows.end(); ++it){
+    delete (*it);
+    arrows.erase(it);
+    it--;
+  }
+  for(std::vector<Guardian *>::iterator it = guardians.begin(); it != guardians.end(); ++it){
+    delete (*it);
+    guardians.erase(it);
+    it--;
+  }
+  for(std::vector<Temple *>::iterator it = temples.begin(); it != temples.end(); ++it){
+    delete (*it);
+    temples.erase(it);
+    it--;
+  }
+  for(std::vector<HolyGrail *>::iterator it = grails.begin(); it != grails.end(); ++it){
+    delete (*it);
+    grails.erase(it);
+    it--;
+  }
+  for(std::vector<River *>::iterator it = rivers.begin(); it != rivers.end(); ++it){
+    delete (*it);
+    rivers.erase(it);
+    it--;
+  }
+  if(player != NULL){
+    delete player;
+  }
 }
 
 void MainWindow::show() {
@@ -210,7 +257,8 @@ void MainWindow::startGame() {
   cl = 0;
   l1 = 0;
   l2 = 0;
-  //std::cout<<hasFocus()<<std::endl;
+  l3 = 0;
+  l4 = 0;
   
   ShowScore = new QTextEdit(View);
   ShowLives = new QTextEdit(View);
@@ -277,6 +325,8 @@ void MainWindow::move(){
   cl++;
   l1++;
   l2++;
+  l3++;
+  l4++;
   if(random < -980 && cr > 80){
     cars.push_back(new Car(this, &CarRight1, &CarRight2, -80, 426, 1, 1));
     Scene->addItem(cars[cars.size()-1]);
@@ -292,7 +342,7 @@ void MainWindow::move(){
   random = std::rand() % 2000;
   random -= 1000;
   if(random > 970 && l1 > 100){
-    if(random > 994){
+    if(random > 998){
       crocodiles.push_back(new Crocodile(this, &CrocodileRight1, &CrocodileRight2, -100, 175, 1, 1));
       Scene->addItem(crocodiles[crocodiles.size()-1]);
     }
@@ -305,7 +355,7 @@ void MainWindow::move(){
   random = std::rand() % 2000;
   random -= 1000;
   if(random < -970 && l2 > 100){
-    if(random < -994){
+    if(random < -997){
       crocodiles.push_back(new Crocodile(this, &CrocodileLeft1, &CrocodileLeft2, WINDOW_MAX_X*2, 225, -1, 1));
       Scene->addItem(crocodiles[crocodiles.size()-1]);
     }
@@ -317,8 +367,8 @@ void MainWindow::move(){
   }
   random = std::rand() % 2000;
   random -= 1000;
-  if(random > 970 && l1 > 100){
-    if(random > 994){
+  if(random > 970 && l3 > 100){
+    if(random > 996){
       crocodiles.push_back(new Crocodile(this, &CrocodileRight1, &CrocodileRight2, -100, 275, 1, 1));
       Scene->addItem(crocodiles[crocodiles.size()-1]);
     }
@@ -326,12 +376,12 @@ void MainWindow::move(){
       logs.push_back(new Log(this, &LogI, -100, 275, 1, 1));
       Scene->addItem(logs[logs.size()-1]);
     }
-    l1 = 0;
+    l3 = 0;
   }
   random = std::rand() % 2000;
   random -= 1000;
-  if(random < -970 && l2 > 100){
-    if(random < -994){
+  if(random < -970 && l4 > 100){
+    if(random < -995){
       crocodiles.push_back(new Crocodile(this, &CrocodileLeft1, &CrocodileLeft2, WINDOW_MAX_X*2, 325, -1, 1));
       Scene->addItem(crocodiles[crocodiles.size()-1]);
     }
@@ -339,7 +389,7 @@ void MainWindow::move(){
       logs.push_back(new Log(this, &LogI, WINDOW_MAX_X*2, 325, -1, 1));
       Scene->addItem(logs[logs.size()-1]);
     }
-    l2 = 0;
+    l4 = 0;
   }
   onLog = false;
   for(std::vector<Log *>::iterator it = logs.begin(); it != logs.end(); ++it){

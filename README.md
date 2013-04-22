@@ -14,11 +14,16 @@
 The grader should use the following procedure to compile and run the code:
 ```shell
 #Compile Instructions
-echo "Write command here"
+echo "qmake -project"
+echo "qmake"
+echo "make"
 #Doxygen Instructions
-echo "Write command here"
+echo "doxygen -g config.txt"
+echo "doxygen config.txt"
+echo "firefox html/index.html"
 #Command to run
-echo "Write command here"
+echo "./local_folder_name"
+Note: The local folder name is whatever name you selected when cloning the repository. The default is game_pbradsha.
 ```
 
 ### Screenshots -- [Optional]

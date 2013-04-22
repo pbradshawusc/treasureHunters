@@ -21,3 +21,8 @@ Makefile
 *.pro
 moc_mainwindow.cpp
 moc*
+
+#Doxygen Reproducable Files
+config.txt
+html/
+latex/
