@@ -42,6 +42,7 @@ MainWindow::MainWindow() : QMainWindow()  {
     View->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     View->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     View->setWindowTitle( "Treasure Hunters!");
+    View->setSceneRect(0,0,WINDOW_MAX_X*2, WINDOW_MAX_Y*2-4); //Test!!!!
     
     Name = new QTextEdit( View );
     Name->setGeometry(275,435,150,30);
