@@ -69,6 +69,9 @@ void TreasureHunter::move(int direction){
   if(y > 531){
     y = 530;
   }
+  else if(y < 115){
+    y+=vY;
+  }
   setPos(x,y);
 }
 
