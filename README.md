@@ -1,8 +1,6 @@
 # Game - Programming Assignments Private Repository
 ### Student Information
   + Name: Patrick Bradshaw
-  + USC Email: pbradsha@usc.edu
-  + USC ID: 8696925839
 
 ### Game Information
   + Game Name: Treasure Hunters!
@@ -25,6 +23,3 @@ echo "firefox html/index.html"
 echo "./local_folder_name"
 Note: The local folder name is whatever name you selected when cloning the repository. The default is game_pbradsha.
 ```
-
-### Screenshots -- [Optional]
-You can either remove this section or add screenshots if you wish.
